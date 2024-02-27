@@ -12,7 +12,7 @@ First make sure the following packages are installed:
 
 And clone the following plugin managers:
 - [Miniplug](https://git.sr.ht/~yerinalexey/miniplug)
-- [TPM] (https://github.com/tmux-plugins/tpm)
+- [TPM](https://github.com/tmux-plugins/tpm)
 
 Then clone the repo and run Stow:
 
