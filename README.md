@@ -9,6 +9,8 @@ First make sure the following packages are installed:
 - Git
 - Stow
 - Tmux
+- Zoxide
+- LSD
 
 And clone the following plugin managers:
 - [Miniplug](https://git.sr.ht/~yerinalexey/miniplug)
