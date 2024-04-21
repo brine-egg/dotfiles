@@ -1,25 +1,17 @@
-# Brine's personal dotfiles **UNTESTED**
+# Disclaimer
 
-Used by me for backing up/syncing configurations, mostly for CLI tools in ZSH.
-*Use at your own risk*
+This is a personal repo for syncing configuration files across devices, there is no guarantee it will work properly on your device.
+*Use at your own risk.*
 
 ## Installation
 
-First make sure the following packages are installed:
-- Git
-- Stow
-- Tmux
+This repo contains config files for the following:
+- ZSH
+- FZF
+- Zellij
 - Zoxide
 - LSD
 
-And clone the following plugin managers:
-- [Miniplug](https://git.sr.ht/~yerinalexey/miniplug)
-- [TPM](https://github.com/tmux-plugins/tpm)
+[Miniplug](https://git.sr.ht/~yerinalexey/miniplug) is used for ZSH plugin management. The script should be placed inside $HOME/.miniplug
 
-Then clone the repo and run Stow:
-
-```sh
-git clone https://github.com/brine-egg/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && stow .
-```
-
-If this command seems way too long, it is. However, I have **ABSOLUTELY NO CLUE** how to fix it soooo...
+This repo can be cloned into a separate folder and have symlinks created using [Stow](https://www.gnu.org/software/stow/) or simply clone the repo directly into your $HOME (*not recommended*).
