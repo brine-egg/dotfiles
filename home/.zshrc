@@ -13,16 +13,18 @@ miniplug theme 'romkatv/powerlevel10k'
 
 # Define plugins
 miniplug plugin 'zdharma-continuum/fast-syntax-highlighting'
-miniplug plugin 'marlonrichert/zsh-autocomplete'
 miniplug plugin 'zsh-users/zsh-autosuggestions'
 miniplug plugin 'zsh-users/zsh-completions'
 
 # Source plugins
 miniplug load
 
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
 # Catppuccin theme for fzf
 export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=bg+:#313244,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
