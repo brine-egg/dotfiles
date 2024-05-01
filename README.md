@@ -17,4 +17,4 @@ This repo contains config files for the following:
 
 This repo can be cloned into a separate folder and have symlinks created using [Stow](https://www.gnu.org/software/stow/) or simply clone the repo directly into your $HOME (*not recommended*).
 
-These configurations use [Catppucin](https://github.com/catppuccin/catppuccin) as the main colour scheme.
+These configurations use [Catppuccin](https://github.com/catppuccin/catppuccin) as the main colour scheme.
