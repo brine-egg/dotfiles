@@ -19,6 +19,9 @@ miniplug plugin 'zsh-users/zsh-completions'
 # Source plugins
 miniplug load
 
+# Catppuccin theme for Fast Syntax Highlighting
+fast-theme XDG:catppuccin-mocha
+
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --zsh)"
 
