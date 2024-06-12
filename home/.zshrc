@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Source Miniplug plugin manager
-source "$HOME/.miniplug/miniplug.zsh"
+source "$HOME/.miniplug.zsh"
 
 # Define theme
 miniplug theme 'romkatv/powerlevel10k'
