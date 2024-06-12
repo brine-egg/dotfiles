@@ -23,7 +23,7 @@ miniplug load
 fast-theme XDG:catppuccin-mocha -q
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
+source <(fzf --zsh)
 
 # Catppuccin theme for fzf
 export FZF_DEFAULT_OPTS=" \
@@ -45,3 +45,5 @@ alias ls="lsd"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+if [ -e /home/brine/.nix-profile/etc/profile.d/nix.sh ]; then . /home/brine/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
