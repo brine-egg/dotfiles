@@ -19,6 +19,16 @@ miniplug plugin 'zsh-users/zsh-completions'
 # Source plugins
 miniplug load
 
+# Make ZSH command history persistent
+HISTFILE=~/.zsh_history
+HISTSIZE=500
+SAVEHIST=500
+HISTDUP=erase
+
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+
 # Catppuccin theme for Fast Syntax Highlighting
 fast-theme XDG:catppuccin-mocha -q
 
