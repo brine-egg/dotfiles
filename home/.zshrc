@@ -9,12 +9,12 @@ fi
 source "$HOME/.miniplug.zsh"
 
 # Define theme
-miniplug theme 'romkatv/powerlevel10k'
+miniplug theme "romkatv/powerlevel10k"
 
 # Define plugins
-miniplug plugin 'zdharma-continuum/fast-syntax-highlighting'
-miniplug plugin 'zsh-users/zsh-autosuggestions'
-miniplug plugin 'zsh-users/zsh-completions'
+miniplug plugin "zdharma-continuum/fast-syntax-highlighting"
+miniplug plugin "zsh-users/zsh-autosuggestions"
+miniplug plugin "zsh-users/zsh-completions"
 
 # Source plugins
 miniplug load
@@ -42,6 +42,7 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # Set editor to Neovim
+export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
 
 # Set up Zoxide
