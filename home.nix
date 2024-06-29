@@ -54,6 +54,14 @@
     pkgs.ytfzf
   ];
 
+  # Test dotfile symlinks
+  home.file.".zshrc".source = ./home/.zshrc;
+  home.file.".p10k.zsh".source = ./home/.p10k.zsh;
+  home.file.".miniplug.zsh".source = ./home/.miniplug.zsh;
+  home.file.".config/bat".source = ./config/bat;
+  home.file.".config/fsh".source = ./config/fsh;
+  home.file.".config/zellij".source = ./config/zellij;
+
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
