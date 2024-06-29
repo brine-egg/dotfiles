@@ -15,6 +15,7 @@ miniplug theme "romkatv/powerlevel10k"
 miniplug plugin "zdharma-continuum/fast-syntax-highlighting"
 miniplug plugin "zsh-users/zsh-autosuggestions"
 miniplug plugin "zsh-users/zsh-completions"
+miniplug plugin "jeffreytse/zsh-vi-mode"
 
 # Source plugins
 miniplug load
