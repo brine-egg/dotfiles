@@ -45,13 +45,13 @@
   };
 
   # Test package install
-  home.packages = [
-    pkgs.ani-cli
-    pkgs.fastfetch
-    pkgs.fzf
-    pkgs.onefetch
-    pkgs.ueberzugpp
-    pkgs.ytfzf
+  home.packages = with pkgs; [
+    ani-cli
+    fastfetch
+    fzf
+    onefetch
+    ueberzugpp
+    ytfzf
   ];
 
   # Test dotfile symlinks
