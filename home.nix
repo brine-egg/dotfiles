@@ -56,12 +56,19 @@
 
   # Test dotfile symlinks
   home.file = {
+    # Shell/CLI config
     ".zshrc".source = ./home/.zshrc;
     ".p10k.zsh".source = ./home/.p10k.zsh;
     ".miniplug.zsh".source = ./home/.miniplug.zsh;
     ".config/bat".source = ./config/bat;
     ".config/fsh".source = ./config/fsh;
     ".config/zellij".source = ./config/zellij;
+    # Theme config
+    ".themes".source = ./gnome/themes;
+    ".icons".source = ./gnome/icons;
+    ".config/gtk-4.0/assets".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/assets;
+    ".config/gtk-4.0/gtk-dark.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk-dark.css;
+    ".config/gtk-4.0/gtk.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk.css;
   };
 
   # Add stuff for your user as you see fit:
