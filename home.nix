@@ -44,7 +44,7 @@
     homeDirectory = "/home/brine";
   };
 
-  # Test package install
+  # Install user level packages with Nix
   home.packages = with pkgs; [
     ani-cli
     bat
@@ -60,7 +60,7 @@
     zoxide
   ];
 
-  # Test dotfile symlinks
+  # Create symlinks for dotfiles
   home.file = {
     # Shell/CLI config
     ".zshrc".source = ./home/.zshrc;
