@@ -47,11 +47,17 @@
   # Test package install
   home.packages = with pkgs; [
     ani-cli
+    bat
+    dipc
     fastfetch
     fzf
+    lsd
     onefetch
     ueberzugpp
+    yazi
     ytfzf
+    zellij
+    zoxide
   ];
 
   # Test dotfile symlinks
