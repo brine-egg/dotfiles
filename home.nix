@@ -63,6 +63,7 @@
     ".config/bat".source = ./config/bat;
     ".config/fsh".source = ./config/fsh;
     ".config/zellij".source = ./config/zellij;
+    ".config/yazi".source = ./config/yazi;
     # Theme config
     ".themes".source = ./gnome/themes;
     ".icons".source = ./gnome/icons;
