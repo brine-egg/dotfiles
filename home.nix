@@ -86,9 +86,6 @@
   programs.home-manager.enable = true;
   programs.git.enable = true;
 
-  # Make home-manager target non-Nix distros for better compatibility
-  targets.genericLinux.enable = true;
-
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
