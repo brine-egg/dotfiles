@@ -71,8 +71,12 @@
     ".config/zellij".source = ./config/zellij;
     ".config/yazi".source = ./config/yazi;
     # Theme config
-    ".themes".source = ./gnome/themes;
-    ".icons".source = ./gnome/icons;
+    #".themes/catppuccin-mocha-lavender-standard+default".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default;
+    #".themes/catppuccin-mocha-lavender-standard+default-hdpi".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default-hdpi;
+    #".themes/catppuccin-mocha-lavender-standard+default-xhdpi".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default-xhdpi;
+    #".icons/catppuccin-mocha-dark-cursors".source = ./gnome/icons/catppuccin-mocha-dark-cursors;
+    #".icons/papirus-folders".source = ./gnome/icons/papirus-folders;
+    # The icons and themes files do not seem to be registered by flatpaks if they are symlinked.
     ".config/gtk-4.0/assets".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/assets;
     ".config/gtk-4.0/gtk-dark.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk-dark.css;
     ".config/gtk-4.0/gtk.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk.css;
