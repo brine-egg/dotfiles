@@ -45,6 +45,7 @@
     nh
     onefetch
     spicetify-cli
+    trashy
     ueberzugpp
     yazi
     ytfzf
