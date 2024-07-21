@@ -3,59 +3,66 @@
   "logo": {
     "type": "small",
     "padding": {
-      "top": 3
+      "top": 2
     },
   },
   "display": {
     "separator": ""
   },
   "modules": [
-    "break",
     {
-    "type": "custom",
-    "format": "\u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+      "type": "custom",
+      "format": "┌────────────────────────────────────────────────────────────────┐"
     },
     "break",
-    "title",
+    {
+      "type": "title",
+      "key": " "
+    },
     {
       "type": "host",
-      "key": ""
+      "key": " "
     },
     "break",
     {
       "type": "os",
-      "key": "OS   "
+      "key": " OS   "
     },
     {
       "type": "kernel",
-      "key": "KER  "
+      "key": " KER  "
     },
     {
       "type": "packages",
-      "key": "PKG  "
+      "key": " PKG  "
     },
     "break",
     {
       "type": "shell",
-      "key": "SH   "
+      "key": " SH   "
     },
     {
       "type": "terminal",
-      "key": "TER  "
+      "key": " TER  "
     },
     "break",
     {
       "type": "de",
-      "key": "DE   "
+      "key": " DE   "
     },
     {
       "type": "wm",
-      "key": "WM   "
+      "key": " WM   "
     },
     "break",
     {
     "type": "custom",
-    "format": "\u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+    "format": " \u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "└────────────────────────────────────────────────────────────────┘"
     }
   ]
 }
