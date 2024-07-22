@@ -44,6 +44,7 @@
     lsd
     nh
     onefetch
+    ripgrep
     spicetify-cli
     trashy
     ueberzugpp
