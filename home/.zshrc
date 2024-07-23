@@ -51,6 +51,7 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # Custom variables
 export NVIM="$HOME/.config/nvim"
+export SHADA="$HOME/.local/state/nvim/shada"
 
 # Custom aliases
 alias ls="lsd"
