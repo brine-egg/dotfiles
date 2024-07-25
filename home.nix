@@ -47,7 +47,6 @@
     w3m
     yazi
     ytfzf
-    zellij
     zoxide
   ];
 
@@ -60,8 +59,8 @@
     ".config/bat".source = ./config/bat;
     ".config/fastfetch".source = ./config/fastfetch;
     ".config/fsh".source = ./config/fsh;
-    ".config/zellij".source = ./config/zellij;
     ".config/yazi".source = ./config/yazi;
+    ".config/tmux/tmux.conf".source = ./config/tmux/tmux.conf;
     # Theme config
     # The icons and themes files do not seem to be registered by flatpaks if they are symlinked, so they need to be manually copied into a separate directory.
     ".local/share/themes/catppuccin-mocha-lavender-standard+default".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default;
