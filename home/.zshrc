@@ -5,6 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Preconfigure Zsh Vi Mode
+function zvm_config() { 
+  ZVM_VI_HIGHLIGHT_BACKGROUND=#585b70
+  ZVM_VI_HIGHLIGHT_FOREGROUND=#f9e2af
+  ZVM_VI_SURROUND_BINDKEY=s-prefix 
+  ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+  ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+}
+
 # Source Miniplug plugin manager
 source "$HOME/.miniplug.zsh"
 
@@ -20,7 +31,7 @@ miniplug plugin "jeffreytse/zsh-vi-mode"
 # Source plugins
 miniplug load
 
-# Make ZSH command history persistent
+# Make Zsh command history persistent
 HISTFILE=~/.zsh_history
 HISTSIZE=500
 SAVEHIST=500
