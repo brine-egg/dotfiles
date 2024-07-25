@@ -1,5 +1,4 @@
-# Home Manager config from https://github.com/Misterio77/nix-starter-configs
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+# Original config file from https://github.com/Misterio77/nix-starter-configs
 {
   inputs,
   lib,
@@ -9,21 +8,17 @@
 }: {
   # You can import other home-manager modules here
   imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
+    # E.g. inputs.nix-colors.homeManagerModule
   ];
 
   nixpkgs = {
     # You can add overlays here
     overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
+      # E.g. neovim-nightly-overlay.overlays.default
     ];
     # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
   };
