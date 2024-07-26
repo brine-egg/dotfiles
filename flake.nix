@@ -31,6 +31,11 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
+      # Overlay packages
+      overlays = [
+        nixgl.overlay ];
+
+
     in {
       homeConfigurations."brine" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
@@ -49,5 +54,4 @@
 
       };
     };
-
 }
