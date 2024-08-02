@@ -34,7 +34,6 @@
 
   # Install user level packages with Nix
   home.packages = with pkgs; [
-    ani-cli
     bat
     dipc
     fastfetch
