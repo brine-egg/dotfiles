@@ -6,16 +6,19 @@
   pkgs,
   ...
 }: {
+
   # You can import other home-manager modules here
   imports = [
     # E.g. inputs.nix-colors.homeManagerModule
   ];
 
   nixpkgs = {
+
     # You can add overlays here
     overlays = [
       # E.g. neovim-nightly-overlay.overlays.default
     ];
+
     # Configure your nixpkgs instance
     config = {
       allowUnfree = true;
@@ -52,6 +55,7 @@
 
   # Create symlinks for dotfiles
   home.file = {
+
     # Shell/CLI config
     ".zshrc".source = ./home/.zshrc;
     ".p10k.zsh".source = ./home/.p10k.zsh;
@@ -61,6 +65,7 @@
     ".config/fsh".source = ./config/fsh;
     ".config/yazi".source = ./config/yazi;
     ".config/tmux/tmux.conf".source = ./config/tmux/tmux.conf;
+
     # Theme config
     # The icons and themes files do not seem to be registered by flatpaks if they are symlinked, so they need to be manually copied into a separate directory.
     ".local/share/themes/catppuccin-mocha-lavender-standard+default".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default;
@@ -71,6 +76,7 @@
     ".config/gtk-4.0/assets".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/assets;
     ".config/gtk-4.0/gtk-dark.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk-dark.css;
     ".config/gtk-4.0/gtk.css".source = ./gnome/themes/catppuccin-mocha-lavender-standard+default/gtk-4.0/gtk.css;
+
   };
 
   # Enable home-manager and git
