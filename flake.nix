@@ -20,8 +20,8 @@
     jerry = { 
       url ="github:justchokingaround/jerry";
       inputs.nixpkgs.follows = "nixpkgs";
-
     };
+
   };
 
   outputs = { nixpkgs, home-manager, jerry, nixgl, ... }:
