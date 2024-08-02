@@ -42,6 +42,7 @@
     nh
     onefetch
     ripgrep
+    rustup
     spicetify-cli
     trashy
     tmux
