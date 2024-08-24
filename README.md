@@ -1,6 +1,7 @@
 # Disclaimer
 
-This is a personal repo for syncing configuration files across devices, there is no guarantee it will work properly on your device.
+This is a repo for syncing configuration files across my personal devices, there is no guarantee it will work properly on your device.
+The configurations are also messy and break frequently.
 *Use at your own risk.*
 
 
