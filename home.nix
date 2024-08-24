@@ -82,8 +82,8 @@
     enable = true;
     theme.package = pkgs.catppuccin-gtk;
     cursorTheme.package = pkgs.catppuccin-cursors;
-    theme.name = "catppuccin-mocha-lavender-standard";
-    cursorTheme.name = "mochaDark";
+    theme.name = "catppuccin-mocha-lavender-standard+default";
+    cursorTheme.name = "catppuccin-mocha-dark-cursors";
   };
 
   # Manage MPV config
