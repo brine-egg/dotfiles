@@ -1,4 +1,5 @@
 {
+
   description = "Extremely scuffed Home Manager flake";
 
   inputs = {
@@ -31,10 +32,13 @@
       homeConfigurations."brine" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        # Load HM modules
+        # Load modules
         modules = [ 
           ./home.nix
+          ./packages.nix
+          ./dotfiles.nix
         ];
       };
     };
+
 }
