@@ -15,9 +15,15 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Catppuccin colour scheme repo
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, ... }:
+  outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
     let
       # Basic variables
       system = "x86_64-linux";
@@ -37,6 +43,7 @@
           ./home.nix
           ./packages.nix
           ./dotfiles.nix
+          catppuccin.homeManagerModules.catppuccin
         ];
       };
     };
