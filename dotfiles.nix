@@ -1,7 +1,4 @@
 {
-  inputs,
-  lib,
-  config,
   pkgs,
   ...
 }: {
@@ -19,12 +16,17 @@
     ".config/tmux/tmux.conf".source = ./config/tmux/tmux.conf;
   };
 
+  # Set themes
   gtk = {
     enable = true;
-    theme.package = pkgs.catppuccin-gtk;
-    cursorTheme.package = pkgs.catppuccin-cursors;
-    theme.name = "catppuccin-mocha-lavender-standard+default";
-    cursorTheme.name = "catppuccin-mocha-dark-cursors";
+    theme = {
+      name = "catppuccin-mocha-lavender-standard+default";
+      package = pkgs.catppuccin-gtk;
+    };
+    cursorTheme = {
+      name = "catppuccin-mocha-dark-cursors";
+      package = pkgs.catppuccin-cursors;
+    };
   };
 
 }
