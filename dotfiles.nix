@@ -3,17 +3,14 @@
   ...
 }: {
 
-  # Create symlinks for dotfiles
+  # Create symlinks for dotfiles not created by Home Manager
   home.file = {
     # Shell/CLI config
     ".zshrc".source = ./home/.zshrc;
     ".p10k.zsh".source = ./home/.p10k.zsh;
     ".miniplug.zsh".source = ./home/.miniplug.zsh;
-    # ".config/bat".source = ./config/bat;
     ".config/fastfetch".source = ./config/fastfetch;
     ".config/fsh".source = ./config/fsh;
-    # ".config/yazi".source = ./config/yazi;
-    # ".config/tmux/tmux.conf".source = ./config/tmux/tmux.conf;
   };
 
   programs.bat = {
