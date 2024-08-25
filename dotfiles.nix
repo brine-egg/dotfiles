@@ -54,18 +54,22 @@
       tmuxPlugins.vim-tmux-navigator # Vim-like navigation
     ];
 
-    # Extra keybinds for easier pane management
+    # Extra keybinds and config
     extraConfig = ''
       bind "v" split-window -hc "#{pane_current_path}"
       bind "h" split-window -vc "#{pane_current_path}"
+      
       bind -n "M-h" resize-pane -L 5
       bind -n "M-j" resize-pane -D 5
       bind -n "M-k" resize-pane -U 5
       bind -n "M-l" resize-pane -R 5
+
       bind -r -T prefix "M-h" resize-pane -L 1
       bind -r -T prefix "M-j" resize-pane -D 1
       bind -r -T prefix "M-k" resize-pane -U 1
       bind -r -T prefix "M-l" resize-pane -R 1
+
+      bind "e" kill-window
 
       set-option -sa terminal-overrides ",xterm*:Tc"
     '';
