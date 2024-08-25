@@ -33,6 +33,7 @@
     disableConfirmationPrompt = true; # Speed things up by removing the prompt for killing a pane/window
     prefix = "C-Space";
     keyMode = "vi";
+    escapeTime = 0;
     baseIndex = 1;
     historyLimit = 5000;
     terminal = "xterm-256color";
