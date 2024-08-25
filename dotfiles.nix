@@ -83,6 +83,11 @@
       package = pkgs.catppuccin-gtk;
     };
 
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
+
     cursorTheme = {
       name = "catppuccin-mocha-dark-cursors";
       package = pkgs.catppuccin-cursors;
