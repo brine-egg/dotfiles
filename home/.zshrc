@@ -41,6 +41,11 @@ setopt appendhistory
 setopt sharehistory
 setopt incappendhistory
 
+# Make Zsh autocomplete case-insensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+setopt NO_CASE_GLOB
+setopt MENU_COMPLETE
+
 # Catppuccin theme for Fast Syntax Highlighting
 fast-theme XDG:catppuccin-mocha -q
 
@@ -52,6 +57,16 @@ export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
+# Set up the Yazi shell wrapper
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 
 # Set editor to Neovim
 export EDITOR="nvim"
