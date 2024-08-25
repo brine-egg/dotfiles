@@ -50,6 +50,7 @@
       }
 
       tmuxPlugins.vim-tmux-navigator # Vim-like navigation
+      tmuxPlugins.jump # Flash.nvim/leap.nvim style jump motion
     ];
 
     # Extra keybinds and config
