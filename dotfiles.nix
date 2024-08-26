@@ -23,6 +23,16 @@
     catppuccin.enable = true;
   };
 
+  programs.btop = {
+    enable = true;
+    catppuccin.enable = true;
+    settings = {
+      vim_keys = true;
+      proc_tree = true;
+    };
+  };
+
+
   programs.tmux = {
     enable = true;
     mouse = true;
