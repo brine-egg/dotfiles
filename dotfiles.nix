@@ -87,6 +87,11 @@
   # Set desktop themes
   gtk = {
     enable = true;
+    font = {
+      name = "Clear Sans Medium, Medium 12";
+      package = pkgs.texlivePackages.clearsans;
+    };
+
     theme = {
       name = "catppuccin-mocha-lavender-standard+default";
       package = pkgs.catppuccin-gtk;
@@ -94,7 +99,10 @@
 
     iconTheme = {
       name = "Papirus";
-      package = pkgs.papirus-icon-theme;
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "mocha";
+        accent = "lavender";
+      };
     };
 
     cursorTheme = {

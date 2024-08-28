@@ -10,6 +10,7 @@
     fastfetch
     fzf
     lsd
+    nerdfonts
     nh
     onefetch
     ripgrep
