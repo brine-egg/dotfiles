@@ -13,6 +13,23 @@
     ".config/fsh".source = ./config/fsh;
   };
 
+  # Kitty terminal
+  programs.kitty = {
+    enable = true;
+    theme = "Catppuccin-Mocha";
+    font = {
+      name = "RobotoMono NFM";
+      size = 12;
+    };
+    settings = {
+      repaint_delay = 5; # Miliseconds of delay between screen updates
+      scrollback_lines = 5000;
+      tab_bar_edge = "top";
+      tab_bar_style = "powerline";
+      tab_powerline_style = "slanted";
+    };
+  };
+
   programs.bat = {
     enable = true;
     catppuccin.enable = true;
@@ -28,11 +45,12 @@
     catppuccin.enable = true;
     settings = {
       vim_keys = true;
-      proc_tree = true;
+      proc_tree = true; # Show groups of processes in tree view
     };
   };
 
 
+  # Tmux config and keybinds
   programs.tmux = {
     enable = true;
     mouse = true;
