@@ -28,3 +28,4 @@ git clone https://github.com/brine-egg/dotfiles $HOME/.dotfiles && home-manager 
 
 This repo contains files from the [Catppuccin](https://github.com/catppuccin/catppuccin) project used for applying the colour theme across several programs.
 The [Miniplug](https://sr.ht/~yerinalexey/miniplug/) Zsh plugin manager is embedded inside this repo, as I use it to install and update Zsh plugins.
+The Nix flake based configurations uses the [nix-starter-configs repo](https://github.com/Misterio77/nix-starter-config) as a template.
