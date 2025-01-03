@@ -30,19 +30,14 @@
     };
   };
 
-  programs.bat = {
-    enable = true;
-    catppuccin.enable = true;
-  };
-
-  programs.yazi = {
-    enable = true;
-    catppuccin.enable = true;
+  catppuccin = {
+    bat.enable = true;
+    btop.enable = true;
+    yazi.enable = true;
   };
 
   programs.btop = {
     enable = true;
-    catppuccin.enable = true;
     settings = {
       vim_keys = true;
       proc_tree = true; # Show groups of processes in tree view
