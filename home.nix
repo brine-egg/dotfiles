@@ -32,6 +32,7 @@
     homeDirectory = "/home/brine";
   };
 
+  # Enable fonts
   fonts.fontconfig.enable = true;
 
   # Enable home-manager and git
