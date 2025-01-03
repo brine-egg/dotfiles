@@ -31,10 +31,15 @@
   };
 
   catppuccin = {
+    flavor = "mocha";
     bat.enable = true;
     btop.enable = true;
     yazi.enable = true;
   };
+
+  programs.bat.enable = true;
+
+  programs.yazi.enable = true;
 
   programs.btop = {
     enable = true;
