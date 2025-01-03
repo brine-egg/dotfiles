@@ -10,7 +10,7 @@
     fastfetch
     fzf
     lsd
-    nerdfonts
+    nerd-fonts.roboto-mono
     nh
     onefetch
     ripgrep
