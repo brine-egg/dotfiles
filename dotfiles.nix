@@ -16,7 +16,7 @@
   # Kitty terminal
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     font = {
       name = "RobotoMono NFM";
       size = 12;
