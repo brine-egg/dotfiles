@@ -27,6 +27,7 @@ miniplug plugin "zdharma-continuum/fast-syntax-highlighting"
 miniplug plugin "zsh-users/zsh-autosuggestions"
 miniplug plugin "zsh-users/zsh-completions"
 miniplug plugin "jeffreytse/zsh-vi-mode"
+miniplug plugin "fdw/yazi-zoxide-zsh"
 
 # Source plugins
 miniplug load
@@ -59,10 +60,10 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # Set up the Yazi shell wrapper
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
