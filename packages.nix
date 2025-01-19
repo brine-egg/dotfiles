@@ -5,6 +5,7 @@
   
   # Install user level packages with Nix
   home.packages = with pkgs; [
+    archivemount
     bat
     dipc
     fastfetch

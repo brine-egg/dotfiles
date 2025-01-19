@@ -39,7 +39,31 @@
 
   programs.bat.enable = true;
 
-  programs.yazi.enable = true;
+  programs.yazi = {
+    enable = true;
+    plugins = {
+      archivemount = pkgs.fetchFromGitHub {
+        owner = "brine-egg";
+        repo = "archivemount.yazi";
+        rev = "8e09c26552e4dec4ddab274cc603d79982ec722b";
+        sha256 = "sha256-uHZLITKmmGsCsCgIKRLiuI/bRMTtcVU5v3f38HPhqTs=";
+      };
+    };
+    keymap = {
+      manager.prepend_keymap = [
+        { 
+          run = "plugin archivemount --args=mount";
+          on = [ "M" ];
+          desc = "Mount selected archive";
+        }
+        { 
+          run = "plugin archivemount --args=unmount";
+          on = [ "U" ];
+          desc = "Unmount and save changes to original archive";
+        }
+      ];
+    };
+  };
 
   programs.btop = {
     enable = true;
