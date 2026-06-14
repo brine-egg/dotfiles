@@ -2,6 +2,7 @@
   pkgs,
   ...
 }: {
+  # Raw dotfiles symlinked into $HOME
   home.file = {
     ".zshrc".source = ./home/.zshrc;
     ".p10k.zsh".source = ./home/.p10k.zsh;
@@ -10,6 +11,7 @@
     ".config/fsh".source = ./config/fsh;
   };
 
+  # Kitty terminal emulator
   programs.kitty = {
     enable = true;
     themeFile = "Catppuccin-Mocha";
@@ -26,6 +28,7 @@
     };
   };
 
+  # Catppuccin theme for supported programs
   catppuccin = {
     flavor = "mocha";
     bat.enable = true;
@@ -33,8 +36,10 @@
     yazi.enable = true;
   };
 
+  # Bat (syntax-highlighted cat)
   programs.bat.enable = true;
 
+  # Yazi file manager
   programs.yazi = {
     enable = true;
     plugins = {
@@ -61,6 +66,7 @@
     };
   };
 
+  # Btop system monitor
   programs.btop = {
     enable = true;
     settings = {
@@ -69,6 +75,7 @@
     };
   };
 
+  # Tmux terminal multiplexer
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -117,6 +124,7 @@
     '';
   };
 
+  # GTK theme, icons, fonts, and cursors
   gtk = {
     enable = true;
     font = {

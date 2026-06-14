@@ -2,6 +2,7 @@
   pkgs,
   ...
 }: {
+  # CLI tools and system utilities
   home.packages = [
     pkgs.archivemount
     pkgs.bat
