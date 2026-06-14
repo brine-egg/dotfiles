@@ -2,29 +2,26 @@
   pkgs,
   ...
 }: {
-  
-  # Install user level packages with Nix
-  home.packages = with pkgs; [
-    archivemount
-    bat
-    dipc
-    fastfetch
-    fzf
-    lsd
-    nerd-fonts.roboto-mono
-    nh
-    onefetch
-    ripgrep
-    ripgrep-all
-    rustup
-    spicetify-cli
-    trashy
-    tmux
-    w3m
-    yazi
-    ytfzf
-    yt-dlp
-    zoxide
+  home.packages = [
+    pkgs.archivemount
+    pkgs.bat
+    pkgs.dipc
+    pkgs.fastfetch
+    pkgs.fzf
+    pkgs.lsd
+    pkgs.nerd-fonts.roboto-mono
+    pkgs.nh
+    pkgs.onefetch
+    pkgs.ripgrep
+    pkgs.ripgrep-all
+    pkgs.rustup
+    pkgs.spicetify-cli
+    pkgs.trashy
+    pkgs.tmux
+    pkgs.w3m
+    pkgs.yazi
+    pkgs.ytfzf
+    pkgs.yt-dlp
+    pkgs.zoxide
   ];
-
 }
