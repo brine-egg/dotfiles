@@ -4,28 +4,11 @@
 }: {
   # Raw dotfiles symlinked into $HOME
   home.file = {
-    ".zshrc".source = ./home/.zshrc;
-    ".p10k.zsh".source = ./home/.p10k.zsh;
-    ".miniplug.zsh".source = ./home/.miniplug.zsh;
-    ".config/fastfetch".source = ./config/fastfetch;
-    ".config/fsh".source = ./config/fsh;
-  };
-
-  # Kitty terminal emulator
-  programs.kitty = {
-    enable = true;
-    themeFile = "Catppuccin-Mocha";
-    font = {
-      name = "RobotoMono NFM";
-      size = 12;
-    };
-    settings = {
-      repaint_delay = 5;
-      scrollback_lines = 5000;
-      tab_bar_edge = "top";
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-    };
+    ".zshrc".source = ../home/.zshrc;
+    ".p10k.zsh".source = ../home/.p10k.zsh;
+    ".miniplug.zsh".source = ../home/.miniplug.zsh;
+    ".config/fastfetch".source = ../config/fastfetch;
+    ".config/fsh".source = ../config/fsh;
   };
 
   # Catppuccin theme for supported programs
@@ -122,29 +105,5 @@
 
       set-option -sa terminal-overrides ",xterm*:Tc"
     '';
-  };
-
-  # GTK theme, icons, fonts, and cursors
-  gtk = {
-    enable = true;
-    font = {
-      name = "Clear Sans Medium, Medium 12";
-      package = pkgs.texlivePackages.clearsans;
-    };
-    theme = {
-      name = "catppuccin-mocha-lavender-standard+default";
-      package = pkgs.catppuccin-gtk;
-    };
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "lavender";
-      };
-    };
-    cursorTheme = {
-      name = "catppuccin-mocha-dark-cursors";
-      package = pkgs.catppuccin-cursors;
-    };
   };
 }

@@ -2,11 +2,9 @@
   pkgs,
   ...
 }: {
-  # CLI tools and system utilities
+  # CLI tools and system utilities available on both platforms
   home.packages = [
-    pkgs.archivemount
     pkgs.bat
-    pkgs.dipc
     pkgs.fastfetch
     pkgs.fzf
     pkgs.lsd
@@ -16,12 +14,8 @@
     pkgs.ripgrep
     pkgs.ripgrep-all
     pkgs.rustup
-    pkgs.spicetify-cli
-    pkgs.trashy
     pkgs.tmux
-    pkgs.w3m
     pkgs.yazi
-    pkgs.ytfzf
     pkgs.yt-dlp
     pkgs.zoxide
   ];

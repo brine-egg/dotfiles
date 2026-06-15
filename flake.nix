@@ -22,19 +22,38 @@
 
   outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      # Home Manager configuration for user "brine"
-      homeConfigurations."brine" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      # Shared modules used on both platforms
+      sharedModules = [
+        ./home.nix
+        ./packages/shared.nix
+        ./dotfiles/shared.nix
+        catppuccin.homeManagerModules.catppuccin
+      ];
 
-        modules = [
-          ./home.nix        # Core Home Manager settings
-          ./packages.nix    # User packages to install
-          ./dotfiles.nix    # Program configs and dotfile symlinks
-          catppuccin.homeManagerModules.catppuccin
-        ];
-      };
+      # Helper to build a Home Manager configuration for a given system
+      mkHome = system: osModules:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            # nixGL overlay only needed on Linux
+            overlays = nixpkgs.lib.optionals (system == "x86_64-linux") [ nixgl.overlay ];
+          };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = sharedModules ++ osModules;
+        };
+    in {
+      # AMD64 Linux
+      homeConfigurations."brine" = mkHome "x86_64-linux" [
+        ./packages/linux.nix
+        ./dotfiles/linux.nix
+      ];
+
+      # ARM64 macOS
+      homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
+        ./packages/darwin.nix
+        ./dotfiles/darwin.nix
+      ];
     };
 }
