@@ -2,34 +2,16 @@
   pkgs,
   ...
 }: {
-
-  # Create symlinks for dotfiles not created by Home Manager
+  # Raw dotfiles symlinked into $HOME
   home.file = {
-    # Shell/CLI config
-    ".zshrc".source = ./home/.zshrc;
-    ".p10k.zsh".source = ./home/.p10k.zsh;
-    ".miniplug.zsh".source = ./home/.miniplug.zsh;
-    ".config/fastfetch".source = ./config/fastfetch;
-    ".config/fsh".source = ./config/fsh;
+    ".zshrc".source = ../shell/zshrc;
+    ".p10k.zsh".source = ../shell/p10k.zsh;
+    ".miniplug.zsh".source = ../shell/miniplug.zsh;
+    ".config/fastfetch".source = ../config/fastfetch;
+    ".config/fsh".source = ../config/fsh;
   };
 
-  # Kitty terminal
-  programs.kitty = {
-    enable = true;
-    themeFile = "Catppuccin-Mocha";
-    font = {
-      name = "RobotoMono NFM";
-      size = 12;
-    };
-    settings = {
-      repaint_delay = 5; # Miliseconds of delay between screen updates
-      scrollback_lines = 5000;
-      tab_bar_edge = "top";
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-    };
-  };
-
+  # Catppuccin theme for supported programs
   catppuccin = {
     flavor = "mocha";
     bat.enable = true;
@@ -37,8 +19,10 @@
     yazi.enable = true;
   };
 
+  # Bat (syntax-highlighted cat)
   programs.bat.enable = true;
 
+  # Yazi file manager
   programs.yazi = {
     enable = true;
     plugins = {
@@ -51,45 +35,44 @@
     };
     keymap = {
       manager.prepend_keymap = [
-        { 
-          run = "plugin archivemount --args=mount";
+        {
           on = [ "M" ];
+          run = "plugin archivemount --args=mount";
           desc = "Mount selected archive";
         }
-        { 
-          run = "plugin archivemount --args=unmount";
+        {
           on = [ "U" ];
+          run = "plugin archivemount --args=unmount";
           desc = "Unmount and save changes to original archive";
         }
       ];
     };
   };
 
+  # Btop system monitor
   programs.btop = {
     enable = true;
     settings = {
       vim_keys = true;
-      proc_tree = true; # Show groups of processes in tree view
+      proc_tree = true;
     };
   };
 
-
-  # Tmux config and keybinds
+  # Tmux terminal multiplexer
   programs.tmux = {
     enable = true;
     mouse = true;
-    sensibleOnTop = true; # Load the tmux-sensible plugin at the top
-    disableConfirmationPrompt = true; # Speed things up by removing the prompt for killing a pane/window
+    sensibleOnTop = true;
+    disableConfirmationPrompt = true;
     prefix = "C-Space";
     keyMode = "vi";
     escapeTime = 0;
     baseIndex = 1;
     historyLimit = 5000;
     terminal = "xterm-256color";
-    plugins = with pkgs; [
+    plugins = [
       {
-        # Catppuccin theme config
-        plugin = tmuxPlugins.catppuccin;
+        plugin = pkgs.tmuxPlugins.catppuccin;
         extraConfig = ''
           set -g @catppuccin_status_left_separator "█"
           set -g @catppuccin_status_right_separator "█"
@@ -100,16 +83,14 @@
           set -g @catppuccin_window_status_icon_enable "no"
         '';
       }
-
-      tmuxPlugins.vim-tmux-navigator # Vim-like navigation
-      tmuxPlugins.jump # Flash.nvim/leap.nvim style jump motion
+      pkgs.tmuxPlugins.vim-tmux-navigator
+      pkgs.tmuxPlugins.jump
     ];
 
-    # Extra keybinds and config
     extraConfig = ''
       bind "v" split-window -hc "#{pane_current_path}"
       bind "h" split-window -vc "#{pane_current_path}"
-      
+
       bind -n "M-h" resize-pane -L 5
       bind -n "M-j" resize-pane -D 5
       bind -n "M-k" resize-pane -U 5
@@ -125,32 +106,4 @@
       set-option -sa terminal-overrides ",xterm*:Tc"
     '';
   };
-
-  # Set desktop themes
-  gtk = {
-    enable = true;
-    font = {
-      name = "Clear Sans Medium, Medium 12";
-      package = pkgs.texlivePackages.clearsans;
-    };
-
-    theme = {
-      name = "catppuccin-mocha-lavender-standard+default";
-      package = pkgs.catppuccin-gtk;
-    };
-
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "lavender";
-      };
-    };
-
-    cursorTheme = {
-      name = "catppuccin-mocha-dark-cursors";
-      package = pkgs.catppuccin-cursors;
-    };
-  };
-
 }

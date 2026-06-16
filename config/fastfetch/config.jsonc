@@ -4,7 +4,7 @@
     "type": "small",
     "padding": {
       "top": 2
-    },
+    }
   },
   "display": {
     "separator": ""

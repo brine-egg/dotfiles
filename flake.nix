@@ -1,22 +1,19 @@
 {
-
-  description = "Extremely scuffed Home Manager flake";
+  description = "Home Manager flake for personal dotfiles";
 
   inputs = {
-    # Input basic repos
+    # Nixpkgs and Home Manager
     nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:/nix-community/home-manager/";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # nixGL repo, provides workaround for OpenGL dependent packages
+    # nixGL for GPU-accelerated apps on non-NixOS
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Catppuccin colour scheme repo
+    # Catppuccin theme for supported programs
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,27 +22,38 @@
 
   outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
     let
-      # Basic variables
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-
-      # Overlay packages
-      overlays = [
-        nixgl.overlay
+      # Shared modules used on both platforms
+      sharedModules = [
+        ./home.nix
+        ./packages/shared.nix
+        ./dotfiles/shared.nix
+        catppuccin.homeManagerModules.catppuccin
       ];
 
+      # Helper to build a Home Manager configuration for a given system
+      mkHome = system: osModules:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            # nixGL overlay only needed on Linux
+            overlays = nixpkgs.lib.optionals (system == "x86_64-linux") [ nixgl.overlay ];
+          };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = sharedModules ++ osModules;
+        };
     in {
-      homeConfigurations."brine" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      # AMD64 Linux
+      homeConfigurations."brine" = mkHome "x86_64-linux" [
+        ./packages/linux.nix
+        ./dotfiles/linux.nix
+      ];
 
-        # Load modules
-        modules = [ 
-          ./home.nix
-          ./packages.nix
-          ./dotfiles.nix
-          catppuccin.homeManagerModules.catppuccin
-        ];
-      };
+      # ARM64 macOS
+      homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
+        ./packages/darwin.nix
+        ./dotfiles/darwin.nix
+      ];
     };
-
 }

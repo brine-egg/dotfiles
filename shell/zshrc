@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Preconfigure Zsh Vi Mode
-function zvm_config() { 
+function zvm_config() {
   ZVM_VI_HIGHLIGHT_BACKGROUND=#585b70
   ZVM_VI_HIGHLIGHT_FOREGROUND=#f5c2e7
   ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK

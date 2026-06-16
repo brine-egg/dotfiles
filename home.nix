@@ -1,4 +1,3 @@
-# Original config file from https://github.com/Misterio77/nix-starter-configs
 {
   inputs,
   lib,
@@ -6,42 +5,33 @@
   pkgs,
   ...
 }: {
+  imports = [ ];
 
-  # You can import other home-manager modules here
-  imports = [
-    # E.g. inputs.nix-colors.homeManagerModule
-  ];
-
+  # Allow unfree packages
   nixpkgs = {
+    overlays = [ ];
 
-    # You can add overlays here
-    overlays = [
-      # E.g. neovim-nightly-overlay.overlays.default
-    ];
-
-    # Configure your nixpkgs instance
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
     };
   };
 
-  # Set your username
+  # User identity
   home = {
     username = "brine";
-    homeDirectory = "/home/brine";
+	homeDirectory = if pkgs.stdenv.isLinux then "/home/brine" else "/Users/brine";
   };
 
-  # Enable fonts
-  fonts.fontconfig.enable = true;
+  # Enable font rendering (Linux only; macOS handles this natively)
+  fonts.fontconfig.enable = pkgs.stdenv.isLinux;
 
-  # Enable home-manager and git
+  # Essential programs
   programs.home-manager.enable = true;
   programs.git.enable = true;
 
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
+  # Auto-start systemd user services on switch (Linux only)
+  systemd.user.startServices = lib.mkIf pkgs.stdenv.isLinux "sd-switch";
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 }
