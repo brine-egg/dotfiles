@@ -4,9 +4,9 @@
 }: {
   # Raw dotfiles symlinked into $HOME
   home.file = {
-    ".zshrc".source = ../home/.zshrc;
-    ".p10k.zsh".source = ../home/.p10k.zsh;
-    ".miniplug.zsh".source = ../home/.miniplug.zsh;
+    ".zshrc".source = ../shell/zshrc;
+    ".p10k.zsh".source = ../shell/p10k.zsh;
+    ".miniplug.zsh".source = ../shell/miniplug.zsh;
     ".config/fastfetch".source = ../config/fastfetch;
     ".config/fsh".source = ../config/fsh;
   };
