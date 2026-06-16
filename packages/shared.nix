@@ -10,6 +10,8 @@
     pkgs.lsd
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
+	pkgs.nixd
+	pkgs.nixfmt
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all
