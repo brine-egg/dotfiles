@@ -20,7 +20,14 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixgl,
+      catppuccin,
+      ...
+    }:
     let
       # Shared modules used on both platforms
       sharedModules = [
@@ -32,7 +39,8 @@
       ];
 
       # Helper to build a Home Manager configuration for a given system
-      mkHome = system: osModules:
+      mkHome =
+        system: osModules:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -44,7 +52,8 @@
           inherit pkgs;
           modules = sharedModules ++ osModules;
         };
-    in {
+    in
+    {
       # AMD64 Linux
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./packages/linux.nix

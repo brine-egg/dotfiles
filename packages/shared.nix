@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   # CLI tools and system utilities available on both platforms
   home.packages = [
     pkgs.bat
@@ -10,9 +11,9 @@
     pkgs.lsd
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
-	pkgs.nixd
-	pkgs.nixfmt
-	pkgs.nixfmt-tree
+    pkgs.nixd
+    pkgs.nixfmt
+    pkgs.nixfmt-tree
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all

@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   # Enable OpenCode AI coding assistant
   programs.opencode = {
     enable = true;

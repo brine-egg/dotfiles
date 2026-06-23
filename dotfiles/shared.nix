@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   # Raw dotfiles symlinked into $HOME
   home.file = {
     ".zshrc".source = ../shell/zshrc;
@@ -13,10 +14,10 @@
 
   # Catppuccin theme for supported programs
   catppuccin = {
-	enable = true;
-	autoEnable = true;
+    enable = true;
+    autoEnable = true;
     flavor = "mocha";
-	accent = "lavender";
+    accent = "lavender";
   };
 
   # Bat (syntax-highlighted cat)

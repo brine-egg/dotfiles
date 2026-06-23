@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   # GTK fonts and cursors (Linux-only)
   gtk = {
     enable = true;

@@ -4,7 +4,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [ ];
 
   # Allow unfree packages
@@ -20,7 +21,7 @@
   # User identity
   home = {
     username = "brine";
-	homeDirectory = if pkgs.stdenv.isLinux then "/home/brine" else "/Users/brine";
+    homeDirectory = if pkgs.stdenv.isLinux then "/home/brine" else "/Users/brine";
   };
 
   # Enable font rendering (Linux only; macOS handles this natively)
