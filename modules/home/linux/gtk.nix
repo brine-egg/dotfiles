@@ -14,13 +14,6 @@
       name = "catppuccin-mocha-lavender-standard+default";
       package = pkgs.catppuccin-gtk;
     };
-    # iconTheme = {
-    #   name = "Papirus";
-    #   package = pkgs.catppuccin-papirus-folders.override {
-    #     flavor = "mocha";
-    #     accent = "lavender";
-    #   };
-    # };
     cursorTheme = {
       name = "catppuccin-mocha-dark-cursors";
       package = pkgs.catppuccin-cursors;
