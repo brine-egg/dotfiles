@@ -29,7 +29,6 @@
 
   # Essential programs
   programs.home-manager.enable = true;
-  programs.git.enable = true;
 
   # Auto-start systemd user services on switch (Linux only)
   systemd.user.startServices = lib.mkIf pkgs.stdenv.isLinux "sd-switch";

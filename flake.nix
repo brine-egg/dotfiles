@@ -32,9 +32,8 @@
       # Shared modules used on both platforms
       sharedModules = [
         ./home.nix
-        ./opencode.nix
+        ./modules/home/shared
         ./packages/shared.nix
-        ./dotfiles/shared.nix
         catppuccin.homeModules.catppuccin
       ];
 
@@ -57,13 +56,13 @@
       # AMD64 Linux
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./packages/linux.nix
-        ./dotfiles/linux.nix
+        ./modules/home/linux
       ];
 
       # ARM64 macOS
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./packages/darwin.nix
-        ./dotfiles/darwin.nix
+        ./modules/home/darwin
       ];
     };
 }
