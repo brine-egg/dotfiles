@@ -12,6 +12,7 @@
     pkgs.nh
 	pkgs.nixd
 	pkgs.nixfmt
+	pkgs.nixfmt-tree
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all
