@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs and Home Manager
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,9 +25,10 @@
       # Shared modules used on both platforms
       sharedModules = [
         ./home.nix
+        ./opencode.nix
         ./packages/shared.nix
         ./dotfiles/shared.nix
-        catppuccin.homeManagerModules.catppuccin
+        catppuccin.homeModules.catppuccin
       ];
 
       # Helper to build a Home Manager configuration for a given system

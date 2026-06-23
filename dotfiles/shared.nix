@@ -13,10 +13,10 @@
 
   # Catppuccin theme for supported programs
   catppuccin = {
+	enable = true;
+	autoEnable = true;
     flavor = "mocha";
-    bat.enable = true;
-    btop.enable = true;
-    yazi.enable = true;
+	accent = "lavender";
   };
 
   # Bat (syntax-highlighted cat)
