@@ -9,5 +9,6 @@
     pkgs.dipc
     pkgs.trashy
     pkgs.w3m
+	pkgs.wlogout
   ];
 }
