@@ -13,13 +13,13 @@
     pkgs.nh
     pkgs.nixd
     pkgs.nixfmt
-    pkgs.nixfmt-tree
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all
     pkgs.rustup
 	pkgs.stylua
     pkgs.tmux
+	pkgs.treefmt
     pkgs.yazi
     pkgs.yt-dlp
     pkgs.zoxide
