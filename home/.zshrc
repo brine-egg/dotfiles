@@ -5,6 +5,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Disable XON/XOFF
+stty -ixon
+
+# Make Zsh command history persistent
+HISTFILE=~/.zsh_history
+HISTSIZE=2000
+SAVEHIST=2000
+HISTDUP=erase
+
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+
 # Preconfigure Zsh Vi Mode
 function zvm_config() {
   ZVM_VI_HIGHLIGHT_BACKGROUND=#585b70
@@ -31,16 +44,6 @@ miniplug plugin "fdw/yazi-zoxide-zsh"
 
 # Source plugins
 miniplug load
-
-# Make Zsh command history persistent
-HISTFILE=~/.zsh_history
-HISTSIZE=2000
-SAVEHIST=2000
-HISTDUP=erase
-
-setopt appendhistory
-setopt sharehistory
-setopt incappendhistory
 
 # Make Zsh autocomplete case-insensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
