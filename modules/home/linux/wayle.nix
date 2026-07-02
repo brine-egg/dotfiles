@@ -22,6 +22,13 @@
           yellow = "#f9e2af";
         };
       };
+	  bar = {
+	  	inset-edge = 0.3;
+		inset-ends = 0.3;
+		border-location = "all";
+		border-color = "border-strong";
+		rounding = "sm";
+	  };
       modules = {
         clock = {
           format = "%a %d %b %H:%M";
