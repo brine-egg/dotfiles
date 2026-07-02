@@ -18,6 +18,7 @@
     pkgs.ripgrep
     pkgs.ripgrep-all
     pkgs.rustup
+	pkgs.stylua
     pkgs.tmux
     pkgs.yazi
     pkgs.yt-dlp
