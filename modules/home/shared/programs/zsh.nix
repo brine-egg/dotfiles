@@ -93,14 +93,21 @@
       ''}
     '';
 
-    # Fast Syntax Highlighting (sourced by Home Manager)
-    syntaxHighlighting.enable = true;
-
     # Fish-like autosuggestions (sourced by Home Manager)
     autosuggestion.enable = true;
 
-    # Plugins without dedicated HM submodules
+    # Plugins without dedicated HM submodules.
+    # NOTE: fast-syntax-highlighting (the zdharma-continuum fork) is sourced
+    # here as a plugin rather than via `programs.zsh.syntaxHighlighting`,
+    # because the HM submodule uses the standard `zsh-syntax-highlighting`
+    # package which lacks the `fast-theme` command used below in initExtra.
+    # Plugins are sourced before initExtra, so `fast-theme` is available.
     plugins = [
+      {
+        name = "fast-syntax-highlighting";
+        src = pkgs.zsh-fast-syntax-highlighting;
+        file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
+      }
       {
         name = "zsh-vi-mode";
         src = pkgs.zsh-vi-mode;
@@ -160,4 +167,10 @@
     EDITOR = "nvim";
     SUDO_EDITOR = "nvim";
   };
+
+  # We use fast-syntax-highlighting (sourced as a zsh plugin) with its own
+  # catppuccin theme via `fast-theme XDG:catppuccin-mocha`, so disable the
+  # catppuccin module's integration for the standard zsh-syntax-highlighting
+  # (which would otherwise be sourced as a no-op).
+  catppuccin.zsh-syntax-highlighting.enable = lib.mkForce false;
 }
