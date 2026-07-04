@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   # CLI tools and system utilities available on both platforms
   home.packages = [
     pkgs.bat
@@ -10,13 +11,15 @@
     pkgs.lsd
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
-	pkgs.nixd
-	pkgs.nixfmt
+    pkgs.nixd
+    pkgs.nixfmt
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all
     pkgs.rustup
+	pkgs.stylua
     pkgs.tmux
+	pkgs.treefmt
     pkgs.yazi
     pkgs.yt-dlp
     pkgs.zoxide

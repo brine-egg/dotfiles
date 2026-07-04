@@ -4,7 +4,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [ ];
 
   # Allow unfree packages
@@ -20,7 +21,7 @@
   # User identity
   home = {
     username = "brine";
-	homeDirectory = if pkgs.stdenv.isLinux then "/home/brine" else "/Users/brine";
+    homeDirectory = if pkgs.stdenv.isLinux then "/home/brine" else "/Users/brine";
   };
 
   # Enable font rendering (Linux only; macOS handles this natively)
@@ -28,7 +29,6 @@
 
   # Essential programs
   programs.home-manager.enable = true;
-  programs.git.enable = true;
 
   # Auto-start systemd user services on switch (Linux only)
   systemd.user.startServices = lib.mkIf pkgs.stdenv.isLinux "sd-switch";

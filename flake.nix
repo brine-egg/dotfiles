@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs and Home Manager
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,18 +20,26 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixgl,
+      catppuccin,
+      ...
+    }:
     let
       # Shared modules used on both platforms
       sharedModules = [
         ./home.nix
+        ./modules/home/shared
         ./packages/shared.nix
-        ./dotfiles/shared.nix
-        catppuccin.homeManagerModules.catppuccin
+        catppuccin.homeModules.catppuccin
       ];
 
       # Helper to build a Home Manager configuration for a given system
-      mkHome = system: osModules:
+      mkHome =
+        system: osModules:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -43,17 +51,18 @@
           inherit pkgs;
           modules = sharedModules ++ osModules;
         };
-    in {
+    in
+    {
       # AMD64 Linux
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./packages/linux.nix
-        ./dotfiles/linux.nix
+        ./modules/home/linux
       ];
 
       # ARM64 macOS
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./packages/darwin.nix
-        ./dotfiles/darwin.nix
+        ./modules/home/darwin
       ];
     };
 }
