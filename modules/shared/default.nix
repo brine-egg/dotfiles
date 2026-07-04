@@ -1,8 +1,7 @@
 {
   imports = [
     ./catppuccin.nix
-    ./opencode.nix
-    ./shell.nix
+    ./dotfiles.nix
     ./programs
   ];
 }

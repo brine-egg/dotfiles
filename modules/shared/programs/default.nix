@@ -4,6 +4,7 @@
     ./btop.nix
     ./fzf.nix
     ./git.nix
+    ./opencode.nix
     ./tmux.nix
     ./yazi.nix
     ./zoxide.nix
