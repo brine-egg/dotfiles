@@ -75,12 +75,6 @@
       # Catppuccin theme for Fast Syntax Highlighting
       fast-theme XDG:catppuccin-mocha -q
 
-      # Catppuccin theme for fzf
-      export FZF_DEFAULT_OPTS=" \
-      --color=bg+:#313244,spinner:#f5e0dc,hl:#f38ba8 \
-      --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-      --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-
       # Custom variables
       export NVIM="$HOME/.config/nvim"
       export SHADA="$HOME/.local/state/nvim/shada"
@@ -149,18 +143,6 @@
   # zsh-completions: ships only share/zsh/site-functions (no plugin file).
   # Adding to home.packages lets HM's completion system pick it up via fpath.
   home.packages = [ pkgs.zsh-completions ];
-
-  # Zoxide: smarter cd (replaces `eval "$(zoxide init --cmd cd zsh)"`)
-  programs.zoxide = {
-    enable = true;
-    options = [ "--cmd" "cd" ];
-  };
-
-  # fzf: fuzzy finder with zsh keybindings/completion
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
 
   # Editor + session variables
   home.sessionVariables = {
