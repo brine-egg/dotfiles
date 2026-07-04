@@ -32,7 +32,7 @@
       # Shared modules used on both platforms
       sharedModules = [
         ./home.nix
-        ./modules/home/shared
+        ./modules/shared
         ./packages/shared.nix
         catppuccin.homeModules.catppuccin
       ];
@@ -56,13 +56,13 @@
       # AMD64 Linux
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./packages/linux.nix
-        ./modules/home/linux
+        ./modules/linux
       ];
 
       # ARM64 macOS
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./packages/darwin.nix
-        ./modules/home/darwin
+        ./modules/darwin
       ];
     };
 }
