@@ -117,26 +117,6 @@
         };
         file = "yazi-zoxide-zsh.plugin.zsh";
       }
-      # Yazi cwd-tracking wrapper. Defined last so it overrides the
-      # yazi-zoxide-zsh plugin's y() (matches original .zshrc ordering).
-      {
-        name = "yazi-cwd-wrapper";
-        src = pkgs.writeTextFile {
-          name = "yazi-cwd-wrapper";
-          destination = "/yazi-cwd-wrapper.plugin.zsh";
-          text = ''
-            function y() {
-              local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-              yazi "$@" --cwd-file="$tmp"
-              if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                builtin cd -- "$cwd"
-              fi
-              rm -f -- "$tmp"
-            }
-          '';
-        };
-        file = "yazi-cwd-wrapper.plugin.zsh";
-      }
     ];
   };
 
