@@ -2,6 +2,7 @@
   imports = [
     ./bat.nix
     ./btop.nix
+    ./codex.nix
     ./fzf.nix
     ./git.nix
     ./opencode.nix
