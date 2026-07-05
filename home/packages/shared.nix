@@ -17,9 +17,9 @@
     pkgs.ripgrep
     pkgs.ripgrep-all
     pkgs.rustup
-	pkgs.stylua
+    pkgs.stylua
     pkgs.tmux
-	pkgs.treefmt
+    pkgs.treefmt
     pkgs.yazi
     pkgs.yt-dlp
     pkgs.zoxide
