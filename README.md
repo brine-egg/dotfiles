@@ -1,4 +1,6 @@
-# Disclaimer
+# brine's personal dotfiles and system config
+
+## Disclaimer
 
 This is a repo for version-controlling and syncing config across my personal devices. This is **NOT** meant to be a
 template for your own config, but feel free to clone the repo and use it if you think it can be helpful.
