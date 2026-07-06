@@ -1,3 +1,8 @@
 [formatter.nix]
 command = "nixfmt"
 includes = ["*.nix"]
+
+[formatter.markdown]
+command = "mdformat"
+options = [ "--wrap", "120" ]
+includes = ["*.md"]
