@@ -17,13 +17,13 @@ This flake manages three kinds of configuration:
 ├── flake.nix                 # all flake outputs
 ├── home/                     # Home Manager config
 │   ├── home.nix
-│   ├── modules/               # shared, linux, darwin HM modules
+│   ├── config/               # shared, linux, darwin HM modules
 │   └── packages/              # shared, linux, darwin packages
 ├── nixos/                    # shared NixOS system modules
-│   ├── modules/
+│   ├── config/
 │   └── packages/
 ├── darwin/                   # shared nix-darwin system modules
-│   └── modules/
+│   └── config/
 └── hosts/                    # per-host config
     ├── desktop/               # NixOS host
     ├── laptop/                # NixOS host
