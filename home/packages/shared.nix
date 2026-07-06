@@ -9,6 +9,7 @@
     pkgs.fastfetch
     pkgs.fzf
     pkgs.lsd
+	pkgs.manix
     pkgs.mdformat
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
