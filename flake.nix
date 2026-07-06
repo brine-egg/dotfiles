@@ -117,6 +117,8 @@
       # --- NixOS hosts ---
       nixosConfigurations.desktop = mkNixos "x86_64-linux" "desktop" [ ];
 
+      nixosConfigurations.laptop = mkNixos "x86_64-linux" "laptop" [ ];
+
       # --- nix-darwin hosts ---
       darwinConfigurations."macbook" = mkDarwin "aarch64-darwin" "macbook" [ ];
     };
