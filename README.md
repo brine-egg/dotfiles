@@ -2,6 +2,8 @@
 
 ## Disclaimer
 
+**WARNING**: NixOS and nix-darwin config are **UNTESTED** and contain only placeholders for now.
+
 This is a repo for version-controlling and syncing config across my personal devices. This is **NOT** meant to be a
 template for your own config, but feel free to clone the repo and use it if you think it can be helpful.
 
@@ -52,7 +54,7 @@ This flake manages three kinds of configuration:
 git clone https://github.com/brine-egg/dotfiles && cd dotfiles
 ```
 
-### Non-NixOS Linux (HM-only)
+### Non-NixOS Linux (Home Manager only)
 
 Nix cannot apply the system-level config on non-NixOS distros. Use standalone Home Manager:
 
@@ -68,9 +70,9 @@ nix run home-manager/master -- init --switch
 home-manager switch --flake .#brine
 ```
 
-### NixOS
+### NixOS (+ standalone Home Manager)
 
-Home Manager is standalone, system and home config are applied separately.
+Uses standalone Home Manager rather than a NixOS module, system and home config are applied separately.
 
 #### 1. Write host config
 
@@ -97,7 +99,7 @@ nix run home-manager/master -- init --switch
 home-manager switch --flake .#brine
 ```
 
-### macOS (nix-darwin + Home Manager)
+### macOS (nix-darwin + standalone Home Manager)
 
 macOS system config is managed by nix-darwin, home config is managed by standalone Home Manager. Both are applied
 separately.
