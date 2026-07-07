@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
@@ -133,6 +134,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     SUDO_EDITOR = "nvim";
+    NIX_PATH = "home-manager=${inputs.home-manager.outPath}:nixpkgs=${inputs.nixpkgs.outPath}";
   };
 
   # We use fast-syntax-highlighting (sourced as a zsh plugin) with its own
