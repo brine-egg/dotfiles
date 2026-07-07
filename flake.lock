@@ -38,8 +38,23 @@
       "original": {
         "owner": "hraban",
         "repo": "cl-nix-lite",
+        "rev": "eb584721e5e799bafe0c6210a8a1a398f90e8ac0",
         "type": "github"
       }
+    },
+    "cl-nix-lite-patched": {
+      "inputs": {
+        "cl-nix-lite": "cl-nix-lite"
+      },
+      "locked": {
+        "path": "./cl-nix-lite-patched",
+        "type": "path"
+      },
+      "original": {
+        "path": "./cl-nix-lite-patched",
+        "type": "path"
+      },
+      "parent": []
     },
     "darwin": {
       "inputs": {
@@ -156,7 +171,9 @@
     },
     "mac-app-util": {
       "inputs": {
-        "cl-nix-lite": "cl-nix-lite",
+        "cl-nix-lite": [
+          "cl-nix-lite-patched"
+        ],
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "nixpkgs": [
@@ -282,6 +299,7 @@
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
+        "cl-nix-lite-patched": "cl-nix-lite-patched",
         "darwin": "darwin",
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
