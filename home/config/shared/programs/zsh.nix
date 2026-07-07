@@ -81,10 +81,6 @@
       # Catppuccin theme for Fast Syntax Highlighting
       fast-theme XDG:catppuccin-mocha -q
 
-      # Custom variables
-      export NVIM="$HOME/.config/nvim"
-      export SHADA="$HOME/.local/state/nvim/shada"
-
       ${lib.optionalString pkgs.stdenv.isLinux ''
         # Sourced by the Nix installer on non-NixOS Linux
         if [ -e /home/brine/.nix-profile/etc/profile.d/nix.sh ]; then
