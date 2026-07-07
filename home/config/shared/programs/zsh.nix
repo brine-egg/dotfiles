@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
@@ -80,10 +81,6 @@
       # Catppuccin theme for Fast Syntax Highlighting
       fast-theme XDG:catppuccin-mocha -q
 
-      # Custom variables
-      export NVIM="$HOME/.config/nvim"
-      export SHADA="$HOME/.local/state/nvim/shada"
-
       ${lib.optionalString pkgs.stdenv.isLinux ''
         # Sourced by the Nix installer on non-NixOS Linux
         if [ -e /home/brine/.nix-profile/etc/profile.d/nix.sh ]; then
@@ -133,6 +130,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     SUDO_EDITOR = "nvim";
+    NIX_PATH = "home-manager=${inputs.home-manager.outPath}:nixpkgs=${inputs.nixpkgs.outPath}";
   };
 
   # We use fast-syntax-highlighting (sourced as a zsh plugin) with its own

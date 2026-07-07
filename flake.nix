@@ -45,7 +45,7 @@
       darwin,
       mac-app-util,
       ...
-    }:
+    }@inputs:
     let
       # -----------------------------------------------------------------
       # Home Manager (standalone) — used on non-NixOS Linux and macOS
@@ -68,6 +68,7 @@
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = sharedModules ++ osModules;
+          extraSpecialArgs = { inherit inputs; };
         };
 
       # -----------------------------------------------------------------
