@@ -9,6 +9,9 @@
 
       # OpenRouter as the LLM provider
       provider.openrouter = { };
+
+      # Instructions for the agent
+      instructions = [ "~/.dotfiles/home/config/shared/programs/opencode-instructions.md" ];
     };
 
     # Catppuccin Mocha theme for the TUI

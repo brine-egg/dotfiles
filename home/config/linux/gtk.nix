@@ -14,9 +14,5 @@
       name = "catppuccin-mocha-lavender-standard+default";
       package = pkgs.catppuccin-gtk;
     };
-    cursorTheme = {
-      name = "catppuccin-mocha-dark-cursors";
-      package = pkgs.catppuccin-cursors;
-    };
   };
 }

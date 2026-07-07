@@ -1,7 +1,7 @@
 {
   imports = [
     ./gtk.nix
-	./wayle.nix
-	./wleave.nix
+    ./wayle.nix
+    ./wleave.nix
   ];
 }

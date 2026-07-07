@@ -55,6 +55,11 @@
       fi
     '';
 
+    # Source externally written env variables in .zshenv
+    envExtra = ''
+      source "$HOME/.env"
+    '';
+
     # Runs before plugin sourcing
     initExtra = ''
       # Powerlevel10k theme + p10k config
