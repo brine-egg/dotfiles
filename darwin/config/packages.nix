@@ -4,7 +4,7 @@
 }:
 {
   # Packages for macOS device
-  darwin.packages = [
+  environment.systemPackages = [
   	pkgs.kitty
   ];
 }
