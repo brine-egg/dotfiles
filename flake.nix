@@ -102,6 +102,7 @@
             mac-app-util.darwinModules.default
             ./darwin/config
             ./hosts/${hostname}/darwin.nix
+            determinate.darwinModules.default
           ]
           ++ extraModules;
         };
