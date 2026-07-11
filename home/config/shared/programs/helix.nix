@@ -12,6 +12,14 @@
           select = "block";
         };
       };
+      keys = {
+        insert = {
+          "C-[" = "normal_mode";
+        };
+        select = {
+          "C-[" = "normal_mode";
+        };
+      };
     };
   };
 }
