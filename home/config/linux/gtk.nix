@@ -11,12 +11,12 @@
       package = pkgs.texlivePackages.clearsans;
     };
     theme = {
-	  name = "Catppuccin-GTK-Lavender-Dark-Compact";
+      name = "Catppuccin-GTK-Lavender-Dark-Compact";
       package = pkgs.magnetic-catppuccin-gtk.override {
-		  size = "compact";
-		  shade = "dark";
-		  accent = [ "lavender" ];
-	  };
+        size = "compact";
+        shade = "dark";
+        accent = [ "lavender" ];
+      };
     };
   };
 }

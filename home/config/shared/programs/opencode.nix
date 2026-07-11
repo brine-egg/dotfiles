@@ -11,16 +11,15 @@
       provider.openrouter = { };
     };
 
-	context = ''
-		When making a git commit, end the commit message with the following two trailers so OpenCode is credited:
+    context = ''
+      		When making a git commit, end the commit message with the following two trailers so OpenCode is credited:
 
-		Generated with [opencode](https://opencode.ai)
+      		Generated with [opencode](https://opencode.ai)
 
-		Co-Authored-By: opencode <noreply@opencode.ai>
+      		Co-Authored-By: opencode <noreply@opencode.ai>
 
-		Use the repository's git config for the primary author (do not override `--author`).
-	'';
-
+      		Use the repository's git config for the primary author (do not override `--author`).
+      	'';
 
     # Catppuccin Mocha theme for the TUI
     tui = {
