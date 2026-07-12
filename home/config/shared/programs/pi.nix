@@ -8,6 +8,7 @@
       theme = "catppuccin-mocha-lavender";
       packages = [
         "git:github.com/XYenon/catppuccin-pi-coding-agent"
+        "npm:@aliou/pi-guardrails"
         "npm:pi-web-access"
         "npm:pi-lens"
       ];
