@@ -1,60 +1,126 @@
 {
-  description = "Home Manager flake for personal dotfiles";
+  description = "NixOS, nix-darwin, and Home Manager flake for personal dotfiles";
 
   inputs = {
-    # Nixpkgs and Home Manager
+    # Nixpkgs shared across all outputs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # Home Manager (standalone)
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixGL for GPU-accelerated apps on non-NixOS
+
+    # nixGL for GPU-accelerated apps on non-NixOS Linux
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     # Catppuccin theme for supported programs
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # nix-darwin for macOS system configuration
+    darwin = {
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # mac-app-util: Spotlight-indexed .app trampolines for Nix-installed GUI apps on macOS
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, catppuccin, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixgl,
+      catppuccin,
+      darwin,
+      mac-app-util,
+      ...
+    }@inputs:
     let
-      # Shared modules used on both platforms
+      # -----------------------------------------------------------------
+      # Home Manager (standalone) — used on non-NixOS Linux and macOS
+      # -----------------------------------------------------------------
       sharedModules = [
-        ./home.nix
-        ./opencode.nix
-        ./packages/shared.nix
-        ./dotfiles/shared.nix
+        ./home/home.nix
+        ./home/config/shared
+        ./home/packages/shared.nix
         catppuccin.homeModules.catppuccin
       ];
 
-      # Helper to build a Home Manager configuration for a given system
-      mkHome = system: osModules:
+      mkHome =
+        system: osModules:
         let
           pkgs = import nixpkgs {
             inherit system;
-            # nixGL overlay only needed on Linux
             overlays = nixpkgs.lib.optionals (system == "x86_64-linux") [ nixgl.overlay ];
           };
         in
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = sharedModules ++ osModules;
+          extraSpecialArgs = { inherit inputs; };
         };
-    in {
-      # AMD64 Linux
+
+      # -----------------------------------------------------------------
+      # NixOS system configuration
+      # -----------------------------------------------------------------
+      mkNixos =
+        system: hostname: extraModules:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/${hostname}/hardware.nix
+            ./nixos/config
+            ./nixos/packages/common.nix
+            ./hosts/${hostname}/default.nix
+          ]
+          ++ extraModules;
+        };
+
+      # -----------------------------------------------------------------
+      # nix-darwin system configuration
+      # -----------------------------------------------------------------
+      mkDarwin =
+        system: hostname: extraModules:
+        darwin.lib.darwinSystem {
+          inherit system;
+          modules = [
+            mac-app-util.darwinModules.default
+            ./darwin/config
+            ./hosts/${hostname}/darwin.nix
+          ]
+          ++ extraModules;
+        };
+    in
+    {
+      # --- Home Manager (standalone) ---
       homeConfigurations."brine" = mkHome "x86_64-linux" [
-        ./packages/linux.nix
-        ./dotfiles/linux.nix
+        ./home/packages/linux.nix
+        ./home/config/linux
       ];
 
-      # ARM64 macOS
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
-        ./packages/darwin.nix
-        ./dotfiles/darwin.nix
+        ./home/packages/darwin.nix
+        ./home/config/darwin
+        mac-app-util.homeManagerModules.default
       ];
+
+      # --- NixOS hosts ---
+      nixosConfigurations.desktop = mkNixos "x86_64-linux" "desktop" [ ];
+
+      nixosConfigurations.laptop = mkNixos "x86_64-linux" "laptop" [ ];
+
+      # --- nix-darwin hosts ---
+      darwinConfigurations."macbook" = mkDarwin "aarch64-darwin" "macbook" [ ];
     };
 }
