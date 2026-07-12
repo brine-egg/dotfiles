@@ -9,6 +9,7 @@
       packages = [
         "git:github.com/XYenon/catppuccin-pi-coding-agent"
         "npm:@aliou/pi-guardrails"
+        "npm:pi-co-authored-by"
         "npm:pi-web-access"
         "npm:pi-lens"
       ];
