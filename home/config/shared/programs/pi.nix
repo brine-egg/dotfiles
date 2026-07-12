@@ -11,6 +11,11 @@
         "npm:pi-web-access"
         "npm:pi-lens"
       ];
+      enableInstallTelemetry = true;
     };
+  };
+
+  home.sessionVariables = {
+    PI_TELEMETRY = "1";
   };
 }
