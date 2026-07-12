@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       defaultProvider = "openrouter";
-      defaultModel = "deepseek/deepseek-v4-flash";
+      defaultModel = "minimax/minimax-m3";
       defaultThinkingLevel = "medium";
       theme = "catppuccin-mocha-lavender";
       packages = [
