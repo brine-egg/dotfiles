@@ -3,9 +3,12 @@
   programs.opencode = {
     enable = true;
 
-    # Enable built-in LSP support
     settings = {
+	  # Enable built-in LSP support
       lsp = true;
+
+	  # Default model
+	  model = "minimax/minimax-m3";
 
       # OpenRouter as the LLM provider
       provider.openrouter = { };
