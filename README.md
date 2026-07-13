@@ -1,11 +1,12 @@
 # brine's personal dotfiles and system config
 
-## Disclaimer
+> [!IMPORTANT] NixOS and nix-darwin config are **UNTESTED** and contain only placeholder stubs for now.
 
-**WARNING**: NixOS and nix-darwin config are **UNTESTED** and contain only placeholders for now.
+## About
 
-This is a repo for version-controlling and syncing config across my personal devices. This is **NOT** meant to be a
-template for your own config, but feel free to clone the repo and use it if you think it can be helpful.
+This is a repo for version-controlling and syncing config files across my personal devices, meaning it is highly
+personalised (and sloppily vibe-coded). This is **NOT** meant to be a template for your own config, but feel free to
+clone the repo and modify it for whatever use-cases you have.
 
 If you need actual templates for your own Nix config, here are some good options:
 

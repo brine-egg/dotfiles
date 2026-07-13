@@ -5,6 +5,9 @@
     # Nixpkgs shared across all outputs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Determinate Nix home module
+    determinate.url = "github:DeterminateSystems/determinate";
+
     # Home Manager (standalone)
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -33,12 +36,18 @@
     mac-app-util = {
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.cl-nix-lite.follows = "cl-nix-lite-patched";
     };
+
+    # cl-nix-lite wrapper that patches the iterate source to use a GitHub mirror
+    # (workaround for expired gitlab.common-lisp.net SSL certificate)
+    cl-nix-lite-patched.url = "path:./cl-nix-lite-patched";
   };
 
   outputs =
     {
       nixpkgs,
+      determinate,
       home-manager,
       nixgl,
       catppuccin,
@@ -98,6 +107,7 @@
             mac-app-util.darwinModules.default
             ./darwin/config
             ./hosts/${hostname}/darwin.nix
+            determinate.darwinModules.default
           ]
           ++ extraModules;
         };
@@ -107,11 +117,13 @@
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./home/packages/linux.nix
         ./home/config/linux
+        determinate.homeManagerModules.default
       ];
 
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./home/packages/darwin.nix
         ./home/config/darwin
+        determinate.homeManagerModules.default
         mac-app-util.homeManagerModules.default
       ];
 

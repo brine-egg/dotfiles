@@ -27,6 +27,9 @@
   # Enable font rendering (Linux only; macOS handles this natively)
   fonts.fontconfig.enable = pkgs.stdenv.isLinux;
 
+  # Disable Home Manager news
+  news.display = "silent";
+
   # Essential programs
   programs.home-manager.enable = true;
 

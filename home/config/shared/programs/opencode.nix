@@ -3,16 +3,26 @@
   programs.opencode = {
     enable = true;
 
-    # Enable built-in LSP support
     settings = {
+	  # Enable built-in LSP support
       lsp = true;
+
+	  # Default model
+	  model = "minimax/minimax-m3";
 
       # OpenRouter as the LLM provider
       provider.openrouter = { };
-
-      # Instructions for the agent
-      instructions = [ "~/.dotfiles/home/config/shared/programs/opencode-instructions.md" ];
     };
+
+    context = ''
+      		When making a git commit, end the commit message with the following two trailers so OpenCode is credited:
+
+      		Generated with [opencode](https://opencode.ai)
+
+      		Co-Authored-By: opencode <noreply@opencode.ai>
+
+      		Use the repository's git config for the primary author (do not override `--author`).
+      	'';
 
     # Catppuccin Mocha theme for the TUI
     tui = {

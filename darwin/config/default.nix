@@ -1,6 +1,7 @@
 {
   imports = [
+    ./determinate.nix
     ./system.nix
-    ./nix.nix
+    ./packages.nix
   ];
 }
