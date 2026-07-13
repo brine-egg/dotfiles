@@ -36,12 +36,7 @@
     mac-app-util = {
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.cl-nix-lite.follows = "cl-nix-lite-patched";
     };
-
-    # cl-nix-lite wrapper that patches the iterate source to use a GitHub mirror
-    # (workaround for expired gitlab.common-lisp.net SSL certificate)
-    cl-nix-lite-patched.url = "path:./cl-nix-lite-patched";
   };
 
   outputs =
