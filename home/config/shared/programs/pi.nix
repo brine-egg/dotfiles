@@ -21,6 +21,13 @@
     PI_TELEMETRY = "1";
   };
 
+  # Disable pi-web-access curator (no browser review UI on web_search)
+  home.file.".pi/web-search.json" = {
+    text = builtins.toJSON {
+      workflow = "none";
+    };
+  };
+
   # Manage pi-guardrails global config
   home.file.".pi/agent/extensions/guardrails.json" = {
     text = builtins.toJSON {
