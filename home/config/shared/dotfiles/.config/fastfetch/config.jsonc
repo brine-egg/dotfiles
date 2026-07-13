@@ -10,59 +10,48 @@
     "separator": ""
   },
   "modules": [
-    {
-      "type": "custom",
-      "format": "┌────────────────────────────────────────────────────────────────┐"
-    },
-    "break",
+	"break",
     {
       "type": "title",
-      "key": " "
-    },
-    {
-      "type": "host",
-      "key": " "
+      "key": " User        ",
+	  "format": "{user-name}"
     },
     "break",
     {
       "type": "os",
-      "key": " OS   "
+      "key": " System      "
     },
     {
       "type": "kernel",
-      "key": " KER  "
+      "key": " Kernel      "
     },
     {
       "type": "packages",
-      "key": " PKG  "
+      "key": " Packages    "
     },
     "break",
     {
       "type": "shell",
-      "key": " SH   "
+      "key": " Shell       "
     },
     {
       "type": "terminal",
-      "key": " TER  "
+      "key": " Terminal    "
     },
     "break",
     {
       "type": "de",
-      "key": " DE   "
+      "key": " Desktop     "
     },
     {
       "type": "wm",
-      "key": " WM   "
+      "key": " Compositor  "
     },
     "break",
     {
-    "type": "custom",
-    "format": " \u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+      "type": "colors",
+	  "key": "             ",
+	  "symbol": "circle"
     },
-    "break",
-    {
-      "type": "custom",
-      "format": "└────────────────────────────────────────────────────────────────┘"
-    }
   ]
 }
