@@ -5,6 +5,9 @@
     # Nixpkgs shared across all outputs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Determinate Nix home module
+    determinate.url = "github:DeterminateSystems/determinate";
+
     # Home Manager (standalone)
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -39,6 +42,7 @@
   outputs =
     {
       nixpkgs,
+      determinate,
       home-manager,
       nixgl,
       catppuccin,
@@ -107,11 +111,13 @@
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./home/packages/linux.nix
         ./home/config/linux
+        determinate.homeManagerModules.default
       ];
 
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./home/packages/darwin.nix
         ./home/config/darwin
+        determinate.homeManagerModules.default
         mac-app-util.homeManagerModules.default
       ];
 
