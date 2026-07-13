@@ -6,7 +6,6 @@
   # CLI tools and system utilities available on both platforms
   home.packages = [
     pkgs.bat
-    pkgs.fastfetch
     pkgs.fzf
     pkgs.lsd
     pkgs.manix

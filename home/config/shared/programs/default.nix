@@ -3,6 +3,7 @@
     ./bat.nix
     ./btop.nix
     ./delta.nix
+    ./fastfetch.nix
     ./fzf.nix
     ./git.nix
     ./opencode.nix
