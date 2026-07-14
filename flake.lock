@@ -255,7 +255,49 @@
         "url": "https://flakehub.com/f/cachix/git-hooks.nix/0.1.941"
       }
     },
+    "hermes-home": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782504399,
+        "narHash": "sha256-NwG1Rm7BhpTAUrvezX1dLoDIszjqyOo+BJ1SINWUAb0=",
+        "owner": "urchin-tidebot",
+        "repo": "hermes-home.nix",
+        "rev": "1439f5f740c81fb3dd93826482e0012974bac717",
+        "type": "github"
+      },
+      "original": {
+        "owner": "urchin-tidebot",
+        "repo": "hermes-home.nix",
+        "type": "github"
+      }
+    },
     "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "hermes-home",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782051614,
+        "narHash": "sha256-xBRAhYLEXcjp8hM2tkkTTLb6PWU7VDxDoogl25g7Ezs=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "d1ccd0721ec599866622665f3651e19e6e2d4c6a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager_2": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -486,7 +528,8 @@
         "catppuccin": "catppuccin",
         "darwin": "darwin",
         "determinate": "determinate",
-        "home-manager": "home-manager",
+        "hermes-home": "hermes-home",
+        "home-manager": "home-manager_2",
         "mac-app-util": "mac-app-util",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs_6"

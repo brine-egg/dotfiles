@@ -5,7 +5,7 @@
     # Nixpkgs shared across all outputs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Determinate Nix home module
+    # Determinate Nix module
     determinate.url = "github:DeterminateSystems/determinate";
 
     # Home Manager (standalone)
@@ -37,6 +37,11 @@
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hermes-home = {
+      url = "github:urchin-tidebot/hermes-home.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -48,6 +53,7 @@
       catppuccin,
       darwin,
       mac-app-util,
+      hermes-home,
       ...
     }@inputs:
     let
@@ -59,6 +65,7 @@
         ./home/config/shared
         ./home/packages/shared.nix
         catppuccin.homeModules.catppuccin
+        hermes-home.homeManagerModules.default
       ];
 
       mkHome =
