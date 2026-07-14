@@ -6,6 +6,7 @@
     ./fastfetch.nix
     ./fzf.nix
     ./git.nix
+    ./hermes.nix
     ./opencode.nix
     ./pi.nix
     ./tmux.nix
