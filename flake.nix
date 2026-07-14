@@ -38,7 +38,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-	# Home Manager module for Hermes Agent
+    # Home Manager module for Hermes Agent
     hermes-home = {
       url = "github:urchin-tidebot/hermes-home.nix";
       inputs.nixpkgs.follows = "nixpkgs";
