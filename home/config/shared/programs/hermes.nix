@@ -18,7 +18,12 @@ in
       providers = [ "openrouter" ];
       model = "deepseek/deepseek-v4-pro";
       terminal.backend = "local";
-	  display.skin = "catppuccin";
+      display.skin = "catppuccin";
+      agent.disabled_toolsets = [
+        "web"
+        "browser"
+        "x_search"
+      ];
     };
   };
 }
