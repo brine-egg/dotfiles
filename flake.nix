@@ -38,9 +38,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+	# Home Manager module for Hermes Agent
     hermes-home = {
       url = "github:urchin-tidebot/hermes-home.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Provides the `hermes-agent` package itself. Consumed directly via
+    # inputs.llm-agents.packages.${system}.hermes-agent so it builds against
+    # this flake's pinned nixpkgs-unstable and hits the numtide binary cache.
+    # Do NOT add inputs.nixpkgs.follows here: upstream is only built/tested
+    # against its own nixpkgs-unstable and following ours risks build failures.
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
     };
   };
 
