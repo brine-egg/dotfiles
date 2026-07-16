@@ -13,6 +13,7 @@
         "npm:pi-web-access"
         "npm:pi-lens"
         "npm:@sting8k/pi-vcc"
+		"npm:@tomooshi/condensed-milk-pi"
       ];
       enableInstallTelemetry = true;
     };
