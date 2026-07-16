@@ -31,6 +31,7 @@ This flake manages three kinds of configuration:
 │   └── packages/              # shared, linux, darwin packages
 ├── nixos/                    # shared NixOS system modules
 │   ├── config/
+│   │   └── system/           # one file per system component (boot, networking, users, …)
 │   └── packages/
 ├── darwin/                   # shared nix-darwin system modules
 │   └── config/
