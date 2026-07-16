@@ -49,6 +49,12 @@
     # this flake's pinned nixpkgs-unstable and hits the numtide binary cache.
     # Do NOT add inputs.nixpkgs.follows here: upstream is only built/tested
     # against its own nixpkgs-unstable and following ours risks build failures.
+    #
+    # We also callPackage a vendored copy of numtide's package.nix
+    # (home/config/shared/programs/hermes-agent-package.nix) against this same
+    # input's nixpkgs to splice extraPythonPackages (ddgs/html2text) into
+    # hermesDeps — see hermes.nix for why the upstream NousResearch flake's
+    # uv2nix packaging was unsuitable (build-time collision guard).
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
     };
