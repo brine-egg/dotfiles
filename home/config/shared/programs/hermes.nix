@@ -42,7 +42,7 @@ in
     package = hermesAgent;
     settings = {
       providers = [ "openrouter" ];
-      model = "deepseek/deepseek-v4-pro";
+      model = "xiaomi/mimo-v2.5-pro";
       terminal.backend = "local";
       display.skin = "catppuccin";
       web = {
