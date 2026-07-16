@@ -4,11 +4,11 @@
     enable = true;
 
     settings = {
-	  # Enable built-in LSP support
+      # Enable built-in LSP support
       lsp = true;
 
-	  # Default model
-	  model = "minimax/minimax-m3";
+      # Default model
+      model = "minimax/minimax-m3";
 
       # OpenRouter as the LLM provider
       provider.openrouter = { };
