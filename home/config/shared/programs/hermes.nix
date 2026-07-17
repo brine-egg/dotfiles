@@ -54,6 +54,7 @@ in
       };
       plugins.enabled = [
         "web-local"
+        "rtk-rewrite"
       ];
       agent.disabled_toolsets = [
         "x_search"

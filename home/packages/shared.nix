@@ -17,6 +17,7 @@
     pkgs.onefetch
     pkgs.ripgrep
     pkgs.ripgrep-all
+	pkgs.rtk
     pkgs.rustup
     pkgs.stylua
     pkgs.tmux
