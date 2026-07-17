@@ -44,7 +44,10 @@ in
       providers = [ "openrouter" ];
       model = "xiaomi/mimo-v2.5-pro";
       terminal.backend = "local";
-      display.skin = "catppuccin";
+      display = {
+        interface = "tui";
+        skin = "catppuccin";
+      };
       web = {
         search_backend = "ddgs";
         extract_backend = "local";
