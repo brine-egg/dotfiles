@@ -52,8 +52,10 @@ in
         search_backend = "ddgs";
         extract_backend = "local";
       };
+      context.engine = "vcc";
       plugins.enabled = [
         "web-local"
+        "hermes-vcc"
         "rtk-rewrite"
       ];
       agent.disabled_toolsets = [
