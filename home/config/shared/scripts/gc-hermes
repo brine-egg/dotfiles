@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Agent-only commit wrapper: appends the Generated-By trailer that
+# SOUL.md requires, using the running Hermes version.
+#
+# Use this instead of `git commit` when the agent commits. Plain
+# `git commit` (used by the human) is untouched — no trailer.
+#
+# Fails hard if `hermes --version` is unavailable or doesn't parse,
+# so the agent surfaces the failure to Brine rather than shipping a
+# bad trailer. Matches SOUL.md: ask Brine rather than substitute a
+# placeholder.
+
+set -euo pipefail
+
+VERSION=$(hermes --version 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+
+if [ -z "$VERSION" ]; then
+  echo "error: could not determine Hermes version from \`hermes --version\`" >&2
+  echo "       Ask Brine for the version number before committing." >&2
+  exit 1
+fi
+
+exec git commit --trailer "Generated-By: Hermes Agent $VERSION" "$@"
