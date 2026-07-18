@@ -61,6 +61,11 @@ in
       agent.disabled_toolsets = [
         "x_search"
       ];
+      # CLI (TUI) clarify prompts block the agent for a response. The default
+      # is 120s, which fires while the user is still reading. Raise to a very
+      # large value (≈115 days) so the prompt stays open until answered. This
+      # only affects the CLI; gateway clarify uses agent.clarify_timeout.
+      clarify.timeout = 9999999;
     };
   };
 }
