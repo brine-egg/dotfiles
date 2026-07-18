@@ -40,6 +40,14 @@ in
   programs.hermes-agent = {
     enable = true;
     package = hermesAgent;
+    extraPlugins = [
+      (pkgs.fetchFromGitHub {
+        owner = "stephenschoettler";
+        repo = "hermes-lcm";
+        rev = "v0.19.0";
+        hash = "sha256-B80HCn3BT+M1B8THMm3Ph5tpimTB68yIVkBfPaV4X40=";
+      })
+    ];
     settings = {
       providers = [ "openrouter" ];
       model = "xiaomi/mimo-v2.5-pro";
@@ -52,10 +60,11 @@ in
         search_backend = "ddgs";
         extract_backend = "local";
       };
-      context.engine = "vcc";
+      context.engine = "lcm";
       plugins.enabled = [
         "web-local"
-        "hermes-vcc"
+        # "hermes-vcc"
+        "hermes-lcm"
         "rtk-rewrite"
       ];
       agent.disabled_toolsets = [
