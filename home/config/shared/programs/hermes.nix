@@ -29,10 +29,19 @@ let
   numtidePkgs = inputs.llm-agents.inputs.nixpkgs.legacyPackages.${system};
   numtidePythonPackages = numtidePkgs.python3Packages;
 
+  # hermes-pulpie plugin (web_extract backend using a local 210M encoder).
+  # Built against numtide's python3Packages so the import resolves inside the
+  # HERMES_PYTHON gateway env. See hermes-pulpie.nix for details.
+  hermesPulpie = numtidePkgs.callPackage ./hermes-pulpie.nix {
+    python3Packages = numtidePythonPackages;
+    inherit (numtidePkgs) fetchFromGitHub;
+  };
+
   hermesAgent = numtidePkgs.callPackage ./hermes-agent-package.nix {
     extraPythonPackages = [
       numtidePythonPackages.ddgs
       numtidePythonPackages.html2text
+      hermesPulpie
     ];
   };
 in
@@ -50,7 +59,7 @@ in
       };
       web = {
         search_backend = "ddgs";
-        extract_backend = "local";
+        extract_backend = "pulpie";
       };
       context.engine = "vcc";
       plugins.enabled = [
