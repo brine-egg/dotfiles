@@ -82,59 +82,16 @@ home-manager switch --flake .#brine
 Symptom of forgetting this: `error: getting status of ... No such file or directory`
 even though the file exists on disk. Always `git add` new files before building.
 
-## Hermes Agent specifics
+## Stale PATH after rebuild
 
-Hermes is packaged via a vendored copy of numtide's `package.nix` at
-`home/config/shared/programs/hermes-agent-package.nix`, spliced with
-`extraPythonPackages` in `home/config/shared/programs/hermes.nix`.
-
-### Adding a Python dependency to Hermes
-
-1. Add the package to the `extraPythonPackages` list in `hermes.nix`.
-2. If the package isn't in nixpkgs, create a Nix derivation
-   (`home/config/shared/programs/hermes-<name>.nix`) using `buildPythonApplication`
-   or `buildPythonPackage` + `fetchPypi` / `fetchFromGitHub`.
-3. `git add` any new files.
-4. Build: `home-manager switch --flake .#brine`.
-5. Verify in the new Python env:
-   ```sh
-   # Find the new hermes binary's Python
-   NEW_HERMES=$(readlink -f $(which hermes))
-   HERMES_PY=$(grep -oP "HERMES_PYTHON='([^']+)'" "$NEW_HERMES" | sed "s/HERMES_PYTHON='//;s/'//")
-   $HERMES_PY -c "import <package>; print('OK')"
-   ```
-
-### Hermes plugin as Nix derivation
-
-To add a Hermes plugin (not just a Python dep):
-
-1. Package the plugin library and the plugin itself as Nix derivations.
-2. Add both to `extraPythonPackages` in `hermes.nix`.
-3. Enable in `~/.hermes/config.yaml` under `plugins.enabled` and configure as
-   needed (this file is outside the repo — it's the runtime config, not
-   declarative).
-4. `git add`, then `home-manager switch --flake .#brine`.
-
-### Stale PATH after rebuild
-
-After `home-manager switch`, the current shell session may still resolve the
-**old** Hermes binary from a cached Nix store path. To pick up the new binary:
+After `home-manager switch`, the current shell session may still resolve
+binaries from a cached Nix store path. To pick up the new generation:
 
 - Start a new shell, **or**
-- Use the absolute path from the new generation:
+- Compare the resolved path against the new generation:
   ```sh
-  readlink -f $(which hermes)
-  # Compare against the generation's store path
+  readlink -f $(which <binary>)
   ```
 
-The Hermes TUI process itself must be restarted to load the new binary and
-Python environment — it does not hot-reload.
-
-## Conventions
-
-- **Commits:** Use conventional commit format. Use `gc-hermes` instead of
-  `git commit` — it appends the `Generated-By: Hermes Agent v<version>` trailer
-  automatically. If unavailable, fall back to
-  `hermes --version` → `git commit --trailer "Generated-By: Hermes Agent v<version>"`.
-- **Branches:** Feature work goes on `feature/*` branches.
-- **No `.gitignore`** in this repo — all files are intended to be tracked.
+Long-running processes (daemons, TUI apps) must be restarted to load the new
+binaries — they do not hot-reload.
