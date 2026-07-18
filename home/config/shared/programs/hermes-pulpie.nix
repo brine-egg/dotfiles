@@ -44,45 +44,7 @@ let
     # pulpie pins transformers<5.0 but nixpkgs ships 5.5.4; relax the pin so
     # the install check passes. Runtime is fine — pulpie only runs forward
     # passes through the encoder, which is API-stable across transformers 4→5.
-    #
-    # transformers 5.x removed the "default" key from ROPE_INIT_FUNCTIONS, but
-    # the HF-downloaded EuroBERT custom model code (modeling_eurobert.py) still
-    # looks it up. Patch model_utils.py to register a "default" rope init fn at
-    # import time — this runs before the model code loads and prevents the
-    # KeyError. The implementation matches transformers 4.x's original.
     pythonRelaxDeps = [ "transformers" ];
-
-    postInstall = ''
-      # transformers 5.x removed the "default" key from ROPE_INIT_FUNCTIONS,
-      # but the HF-downloaded EuroBERT custom model code (modeling_eurobert.py)
-      # still looks it up at runtime → KeyError. Append a monkey-patch to the
-      # end of model_utils.py that registers a "default" rope init fn. This
-      # module is imported before any model code loads, so the patch is in
-      # place by the time from_pretrained() triggers the custom modeling code.
-      local sitepkgs="$out/lib/python3.14/site-packages/pulpie"
-      cat >> "$sitepkgs/model_utils.py" <<'PATCH'
-
-# --- transformers 5.x compat: restore "default" RoPE init fn ---
-def _restore_default_rope():
-    try:
-        from transformers.modeling_rope_utils import ROPE_INIT_FUNCTIONS
-    except ImportError:
-        return
-    if "default" in ROPE_INIT_FUNCTIONS:
-        return
-    def _compute_default_rope_parameters(config=None, device=None, seq_len=None, layer_type=None):
-        base = getattr(config, "rope_theta", 10000.0)
-        partial_rotary_factor = getattr(config, "partial_rotary_factor", 1.0)
-        head_dim = getattr(config, "head_dim", None) or config.hidden_size // config.num_attention_heads
-        dim = int(head_dim * partial_rotary_factor)
-        inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, dtype=torch.int64).to(device=device, dtype=torch.float) / dim))
-        return inv_freq, 1.0
-    ROPE_INIT_FUNCTIONS["default"] = _compute_default_rope_parameters
-
-_restore_default_rope()
-# --- end compat patch ---
-PATCH
-    '';
 
     pythonImportsCheck = [ "pulpie" ];
 
