@@ -67,9 +67,27 @@ in
         "hermes-lcm"
         "rtk-rewrite"
       ];
-      agent.disabled_toolsets = [
-        "x_search"
-      ];
+      agent = {
+        disabled_toolsets = [
+          "x_search"
+        ];
+        system_prompt = ''
+          ## Operational rules — hard constraints, override only with explicit permission
+
+          - Do not edit unversion-controlled code or config without Brine's explicit permission.
+          - Do not commit until the code has compiled and been verified by running it — not just by reading it.
+          - Do not rely on guesswork when you are missing information needed to proceed. Search documentation, or ask Brine — do not begin work until you have what you need.
+          - Always use conventional commit format, unless Brine states otherwise.
+          - Every commit must contain the trailer `Generated-By: Hermes Agent v<version>`. Use `gc-hermes` instead of `git commit` — it extracts the version and appends the trailer automatically. If `gc-hermes` is unavailable, fall back to `hermes --version` + `git commit --trailer "Generated-By: Hermes Agent v<version>"`. If `hermes --version` also fails, ask Brine for the version number rather than substituting a placeholder.
+
+          ## Suggestions — defaults you should follow unless context argues against them
+
+          - If an instruction is too vague, ask Brine to expand upon it.
+          - Prioritise long-term maintainability and scalability over band-aid solutions.
+          - If a task seems infeasible or too complex, suggest an alternative approach.
+          - Make only changes necessary for the current goal.
+        '';
+      };
       # CLI (TUI) clarify prompts block the agent for a response. The default
       # is 120s, which fires while the user is still reading. Raise to a very
       # large value (≈115 days) so the prompt stays open until answered. This
