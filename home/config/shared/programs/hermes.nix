@@ -5,6 +5,11 @@
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
+  # HERMES_HOME: where Hermes writes its runtime state. The default profile
+  # is ~/.hermes; this path is used to compute an absolute shared_surface
+  # path so the Mnemosyne plugin (which uses Python's Path.expanduser — only
+  # honors "~", not "$HOME") receives a fully-resolved string.
+  hermesHome = "/home/brine/.hermes";
 
   # The hermes-home.nix HM module only ships the module, not the package. The
   # package lives in numtide/llm-agents.nix. numtide's packaging has a CLOSED
@@ -71,6 +76,30 @@ in
         extract_backend = "local";
       };
       context.engine = "lcm";
+      memory = {
+        # Provider name must match the plugin directory name in ~/.hermes/plugins/.
+        # The HM extraPlugins activation creates nix-managed-<getName> symlinks,
+        # so the provider name is "nix-managed-mnemosyne" (getName of the
+        # runCommandLocal "mnemosyne" derivation in mnemosyne.nix).
+        provider = "nix-managed-mnemosyne";
+        memory_enabled = false;
+        user_profile_enabled = false;
+        # Per-profile memory isolation: each Hermes profile gets its own SQLite
+        # bank under mnemosyne/data/banks/<profile>/mnemosyne.db instead of the
+        # shared default bank. The default profile (hermes_home basename
+        # ".hermes") falls back to the "default" bank — same path as before.
+        #
+        # shared_surface_path is fully expanded at Nix eval time using the
+        # `hermesHome` constant from the let block. The Mnemosyne plugin's
+        # Path.expanduser() only honors "~", not "$HOME", so we resolve it
+        # to an absolute path here. The perihelion profile uses the same
+        # path via its unversioned config.yaml.
+        mnemosyne = {
+          profile_isolation = true;
+          shared_surface_path = "${hermesHome}/mnemosyne/data/shared/mnemosyne.db";
+          shared_surface_read = true;
+        };
+      };
       plugins.enabled = [
         "web-local"
         # "hermes-vcc"
@@ -81,6 +110,10 @@ in
         disabled_toolsets = [
           "x_search"
         ];
+        # Explicit reasoning effort so providers can't silently downgrade under
+        # load (seen with StreamLake on GLM-5.2). Bump per-session with
+        # `hermes config set agent.reasoning_effort high` when needed.
+        reasoning_effort = "medium";
         system_prompt = ''
           ## Operational rules — hard constraints, override only with explicit permission
 
