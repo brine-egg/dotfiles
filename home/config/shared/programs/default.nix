@@ -1,5 +1,6 @@
 {
   imports = [
+    ./agent-skills.nix
     ./bat.nix
     ./btop.nix
     ./delta.nix

@@ -44,6 +44,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Third-party Hermes skills synced into ~/.hermes/skills/ on activation.
+    # Module exposes programs.agent-skills.{enable, sources, skills, targets,
+    # excludePatterns}; Hermes is not in its defaultTargets so we set
+    # `dest = "$HOME/.hermes/skills"` explicitly in the program module.
+    agent-skills = {
+      url = "github:Kyure-A/agent-skills-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Path-input source of upstream Anthropic skills (no flake outputs, just
+    # raw files under `skills/`). Added as flake = false; referenced via
+    # sources.anthropic-skills.input = "anthropic-skills" in
+    # home/config/shared/programs/agent-skills.nix.
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
+
     # Provides the `hermes-agent` package itself. Consumed directly via
     # inputs.llm-agents.packages.${system}.hermes-agent so it builds against
     # this flake's pinned nixpkgs-unstable and hits the numtide binary cache.
@@ -70,6 +88,7 @@
       darwin,
       mac-app-util,
       hermes-home,
+      agent-skills,
       ...
     }@inputs:
     let
@@ -82,6 +101,7 @@
         ./home/packages/shared.nix
         catppuccin.homeModules.catppuccin
         hermes-home.homeManagerModules.default
+        agent-skills.homeManagerModules.default
       ];
 
       mkHome =
