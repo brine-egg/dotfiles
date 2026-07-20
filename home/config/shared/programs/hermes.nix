@@ -65,6 +65,14 @@ in
         interface = "tui";
         skin = "catppuccin";
       };
+      approval.deny = [ "*git push*" ];
+      command_allowlist = [
+        "rm -rf /tmp/*"
+        "rm -r /tmp/*"
+        "rm -rf /tmp"
+        "rm /tmp/*"
+        "find /tmp *-delete*"
+      ];
       web = {
         search_backend = "ddgs";
         extract_backend = "local";
