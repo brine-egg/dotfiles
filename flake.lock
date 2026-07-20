@@ -429,6 +429,22 @@
         "type": "github"
       }
     },
+    "juliusbrussee-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783497747,
+        "narHash": "sha256-+SH6Zy4qoYMU3BhO2FuPkC7h+i4rzqAEQbddatTNviE=",
+        "owner": "JuliusBrussee",
+        "repo": "skills",
+        "rev": "e8048f01abe2b8e2563df2078d0d705c895eb09a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JuliusBrussee",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -473,6 +489,22 @@
       "original": {
         "owner": "hraban",
         "repo": "mac-app-util",
+        "type": "github"
+      }
+    },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784192592,
+        "narHash": "sha256-S6pARK99oGGSi6XdFm6zYKHT4gjOCN0wIPZFcl1hREE=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
         "type": "github"
       }
     },
@@ -682,8 +714,10 @@
         "determinate": "determinate",
         "hermes-home": "hermes-home",
         "home-manager": "home-manager_3",
+        "juliusbrussee-skills": "juliusbrussee-skills",
         "llm-agents": "llm-agents",
         "mac-app-util": "mac-app-util",
+        "mattpocock-skills": "mattpocock-skills",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs_7"
       }

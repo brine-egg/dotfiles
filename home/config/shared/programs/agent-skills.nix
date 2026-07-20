@@ -8,17 +8,43 @@
   programs.agent-skills = {
     enable = true;
 
-    # Path-input source: anthropics/skills has no flake outputs, just files under
-    # `skills/`. `subdir = "skills"` scopes discovery to that directory.
-    sources.anthropic-skills = {
-      input = "anthropic-skills";
-      subdir = "skills";
+    # ------------------------------------------------------------------
+    # Sources
+    # ------------------------------------------------------------------
+    # Each path input is a flake=false git source whose layout is just
+    # `skills/<skill>/SKILL.md` (anthropic, juliusbrussee) or
+    # `skills/<category>/<skill>/SKILL.md` (mattpocock). `idPrefix` namespaced
+    # to prevent collisions across sources (the README is explicit: when two
+    # sources can expose the same relative path, prefix them).
+    sources = {
+      anthropic-skills = {
+        input = "anthropic-skills";
+        subdir = "skills";
+      };
+
+      juliusbrussee-skills = {
+        input = "juliusbrussee-skills";
+        subdir = "skills";
+        idPrefix = "juliusbrussee";
+        # JuliusBrussee's skills are flat (one level under skills/).
+        filter.maxDepth = 1;
+      };
+
+      mattpocock-skills = {
+        input = "mattpocock-skills";
+        subdir = "skills";
+        idPrefix = "mattpocock";
+        # mattpocock's skills are nested under category dirs
+        # (engineering/, productivity/, ...). Default maxDepth = null is
+        # correct here.
+      };
     };
 
-    # Allowlist of skill IDs. Discovered IDs are the subdirectory names under
-    # anthropics/skills/skills/ (with `filter.maxDepth = null` they are flat —
-    # each skill is a single subdir containing SKILL.md). Confirmed via
-    # GitHub Contents API on anthropics/skills main branch.
+    # ------------------------------------------------------------------
+    # Allowlist
+    # ------------------------------------------------------------------
+    # Anthropic's full upstream catalog (17 skills). With idPrefix unset,
+    # discovered IDs are bare names: pdf, docx, ...
     skills.enable = [
       "algorithmic-art"
       "brand-guidelines"
@@ -37,8 +63,16 @@
       "web-artifacts-builder"
       "webapp-testing"
       "xlsx"
+      # Hub-tracked skills reinstalled from canonical sources.
+      # IDs are namespaced because we set idPrefix on the source.
+      "juliusbrussee/grill-me"
+      "mattpocock/engineering/research"
+      "mattpocock/productivity/teach"
     ];
 
+    # ------------------------------------------------------------------
+    # Target
+    # ------------------------------------------------------------------
     # Hermes is not in agent-skills defaultTargets, so we must set dest
     # explicitly. `structure = "symlink-tree"` (default) supports shell
     # variable expansion at activation time — $HOME resolves at runtime.
@@ -60,6 +94,9 @@
       structure = "symlink-tree";
     };
 
+    # ------------------------------------------------------------------
+    # Excludes
+    # ------------------------------------------------------------------
     # Default is [ ".system" ]. Override to:
     # - keep .archive/ and .hub/ (Hermes runtime subdirs under
     #   ~/.hermes/skills/) — defensive; they live at the parent level of

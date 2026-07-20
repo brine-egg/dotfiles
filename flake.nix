@@ -44,21 +44,36 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Third-party Hermes skills synced into ~/.hermes/skills/ on activation.
-    # Module exposes programs.agent-skills.{enable, sources, skills, targets,
-    # excludePatterns}; Hermes is not in its defaultTargets so we set
-    # `dest = "$HOME/.hermes/skills"` explicitly in the program module.
+    # Third-party Hermes skills synced into a `nix-managed/` subdirectory
+    # of ~/.hermes/skills on activation. The program module sets
+    # `dest = "$HOME/.hermes/skills/nix-managed"` so the module's
+    # rsync --delete cannot reach skills Hermes manages directly.
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Path-input source of upstream Anthropic skills (no flake outputs, just
-    # raw files under `skills/`). Added as flake = false; referenced via
+    # raw files under `skills/`). Referenced via
     # sources.anthropic-skills.input = "anthropic-skills" in
     # home/config/shared/programs/agent-skills.nix.
     anthropic-skills = {
       url = "github:anthropics/skills";
+      flake = false;
+    };
+
+    # Source for `grill-me` (JuliusBrussee's stress-test plan auditor).
+    # Referenced via sources.juliusbrussee-skills.
+    juliusbrussee-skills = {
+      url = "github:JuliusBrussee/skills";
+      flake = false;
+    };
+
+    # Source for `teach` and `research` (mattpocock's teaching + research
+    # skills, both originally installed via the Hermes skills hub).
+    # Referenced via sources.mattpocock-skills.
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
       flake = false;
     };
 
