@@ -5,12 +5,6 @@
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
-  # HERMES_HOME: where Hermes writes its runtime state. The default profile
-  # is ~/.hermes; this path is used to compute an absolute shared_surface
-  # path so the Mnemosyne plugin (which uses Python's Path.expanduser — only
-  # honors "~", not "$HOME") receives a fully-resolved string.
-  hermesHome = "/home/brine/.hermes";
-
   # The hermes-home.nix HM module only ships the module, not the package. The
   # package lives in numtide/llm-agents.nix. numtide's packaging has a CLOSED
   # callPackage arg list (no extraPythonPackages/.override support), so we
@@ -89,14 +83,12 @@ in
         # shared default bank. The default profile (hermes_home basename
         # ".hermes") falls back to the "default" bank — same path as before.
         #
-        # shared_surface_path is fully expanded at Nix eval time using the
-        # `hermesHome` constant from the let block. The Mnemosyne plugin's
-        # Path.expanduser() only honors "~", not "$HOME", so we resolve it
-        # to an absolute path here. The perihelion profile uses the same
-        # path via its unversioned config.yaml.
+        # shared_surface_path uses a bare ~/.hermes/... string. The HM settings
+        # schema (deepConfigType) is freeform — no path coercion on inner values.
+        # The Mnemosyne plugin's Path.expanduser() resolves "~" at runtime.
         mnemosyne = {
           profile_isolation = true;
-          shared_surface_path = "${hermesHome}/mnemosyne/data/shared/mnemosyne.db";
+          shared_surface_path = "~/.hermes/mnemosyne/data/shared/mnemosyne.db";
           shared_surface_read = true;
         };
       };
