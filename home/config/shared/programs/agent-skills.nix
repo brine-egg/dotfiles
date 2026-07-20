@@ -17,10 +17,10 @@
     # to prevent collisions across sources (the README is explicit: when two
     # sources can expose the same relative path, prefix them).
     sources = {
-      anthropic-skills = {
-        input = "anthropic-skills";
-        subdir = "skills";
-      };
+      # anthropic-skills = {
+      #   input = "anthropic-skills";
+      #   subdir = "skills";
+      # };
 
       juliusbrussee-skills = {
         input = "juliusbrussee-skills";
@@ -43,26 +43,7 @@
     # ------------------------------------------------------------------
     # Allowlist
     # ------------------------------------------------------------------
-    # Anthropic's full upstream catalog (17 skills). With idPrefix unset,
-    # discovered IDs are bare names: pdf, docx, ...
     skills.enable = [
-      "algorithmic-art"
-      "brand-guidelines"
-      "canvas-design"
-      "claude-api"
-      "doc-coauthoring"
-      "docx"
-      "frontend-design"
-      "internal-comms"
-      "mcp-builder"
-      "pdf"
-      "pptx"
-      "skill-creator"
-      "slack-gif-creator"
-      "theme-factory"
-      "web-artifacts-builder"
-      "webapp-testing"
-      "xlsx"
       # Hub-tracked skills reinstalled from canonical sources.
       # IDs are namespaced because we set idPrefix on the source.
       "juliusbrussee/grill-me"
