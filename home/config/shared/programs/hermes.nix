@@ -29,10 +29,19 @@ let
   numtidePkgs = inputs.llm-agents.inputs.nixpkgs.legacyPackages.${system};
   numtidePythonPackages = numtidePkgs.python3Packages;
 
+  # Mnemosyne memory layer (mnemosyne-memory core + mnemosyne-hermes plugin
+  # wrapper). Built against numtide's Python 3.14 — same interpreter hermes-agent
+  # runs under — so both packages are importable in the CLI and gateway envs.
+  # See ./mnemosyne.nix for the dependency rationale and how to switch from
+  # local embeddings to a remote embedding API.
+  mnemosyne = numtidePkgs.callPackage ./mnemosyne.nix { };
+
   hermesAgent = numtidePkgs.callPackage ./hermes-agent-package.nix {
     extraPythonPackages = [
       numtidePythonPackages.ddgs
       numtidePythonPackages.html2text
+      mnemosyne.mnemosyne-memory
+      mnemosyne.mnemosyne-hermes
     ];
   };
 in
@@ -47,6 +56,7 @@ in
         rev = "v0.19.0";
         hash = "sha256-B80HCn3BT+M1B8THMm3Ph5tpimTB68yIVkBfPaV4X40=";
       })
+      mnemosyne.mnemosyne-hermes-plugin-dir
     ];
     settings = {
       providers = [ "openrouter" ];
