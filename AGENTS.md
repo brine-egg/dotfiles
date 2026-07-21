@@ -40,8 +40,8 @@ home-manager switch --flake .#brine
 
 - The `.` means "this flake in the current directory."
 - `#brine` selects `homeConfigurations."brine"`.
-- **Do NOT run bare `home-manager switch`** without `--flake .#brine` — it will
-  fall back to legacy non-flake mode and either error out or apply a stale config.
+- **Do NOT run bare `home-manager switch`** without `--flake .#brine` — it will fall back to legacy non-flake mode and
+  either error out or apply a stale config.
 
 ### Home Manager (macOS)
 
@@ -70,22 +70,21 @@ nix build .#homeConfigurations.brine.activationPackage
 
 ## Git tracking before building
 
-**Nix flakes ignore untracked files.** If you create a new `.nix` file and
-reference it from another module (e.g. adding it to `imports`), the flake
-evaluator will not see it until it is tracked by Git:
+**Nix flakes ignore untracked files.** If you create a new `.nix` file and reference it from another module (e.g. adding
+it to `imports`), the flake evaluator will not see it until it is tracked by Git:
 
 ```sh
 git add path/to/new-file.nix
 home-manager switch --flake .#brine
 ```
 
-Symptom of forgetting this: `error: getting status of ... No such file or directory`
-even though the file exists on disk. Always `git add` new files before building.
+Symptom of forgetting this: `error: getting status of ... No such file or directory` even though the file exists on
+disk. Always `git add` new files before building.
 
 ## Stale PATH after rebuild
 
-After `home-manager switch`, the current shell session may still resolve
-binaries from a cached Nix store path. To pick up the new generation:
+After `home-manager switch`, the current shell session may still resolve binaries from a cached Nix store path. To pick
+up the new generation:
 
 - Start a new shell, **or**
 - Compare the resolved path against the new generation:
@@ -93,5 +92,4 @@ binaries from a cached Nix store path. To pick up the new generation:
   readlink -f $(which <binary>)
   ```
 
-Long-running processes (daemons, TUI apps) must be restarted to load the new
-binaries — they do not hot-reload.
+Long-running processes (daemons, TUI apps) must be restarted to load the new binaries — they do not hot-reload.

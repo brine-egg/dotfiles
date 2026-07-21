@@ -97,14 +97,12 @@ let
   # not from this directory — the plugin dir only needs to satisfy the
   # directory-based plugin loader's _load_directory_module(), which reads
   # __init__.py and plugin.yaml from the root.
-  mnemosyne-hermes-plugin-dir = runCommandLocal "mnemosyne"
-    { }
-    ''
-      mkdir -p $out
-      cp -r \
-        "${mnemosyne-hermes}/${python3Packages.python.sitePackages}/mnemosyne_hermes"/* \
-        $out/
-    '';
+  mnemosyne-hermes-plugin-dir = runCommandLocal "mnemosyne" { } ''
+    mkdir -p $out
+    cp -r \
+      "${mnemosyne-hermes}/${python3Packages.python.sitePackages}/mnemosyne_hermes"/* \
+      $out/
+  '';
 in
 {
   inherit

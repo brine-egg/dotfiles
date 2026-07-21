@@ -57,7 +57,7 @@
       "mattpocock/engineering/domain-modeling"
       "mattpocock/engineering/codebase-design"
       "mattpocock/engineering/improve-codebase-architecture"
-	  "mattpocock/engineering/resolving-merge-conflicts"
+      "mattpocock/engineering/resolving-merge-conflicts"
       "mattpocock/engineering/research"
       "mattpocock/productivity/teach"
       "nixos/nixos-ai-skill"
