@@ -18,9 +18,9 @@ Current host is `north-fedora` (Fedora, non-NixOS) → uses `homeConfigurations.
 flake.nix                    # flake inputs + output builders (mkHome, mkNixos, mkDarwin)
 home/
   home.nix                   # shared Home Manager entry point
-  config/shared/             # cross-platform HM modules (programs/, etc.)
-  config/linux/              # Linux-only HM modules
-  config/darwin/             # macOS-only HM modules
+  modules/shared/           # cross-platform HM modules (programs/, etc.)
+  modules/linux/            # Linux-only HM modules
+  modules/darwin/           # macOS-only HM modules
   packages/shared.nix        # cross-platform packages
   packages/linux.nix         # Linux-only packages
   packages/darwin.nix        # macOS-only packages

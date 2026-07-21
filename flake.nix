@@ -56,7 +56,7 @@
     # Path-input source of upstream Anthropic skills (no flake outputs, just
     # raw files under `skills/`). Referenced via
     # sources.anthropic-skills.input = "anthropic-skills" in
-    # home/config/shared/programs/agent-skills.nix.
+    # home/modules/shared/programs/agent-skills.nix.
     # anthropic-skills = {
     #   url = "github:anthropics/skills";
     #   flake = false;
@@ -89,7 +89,7 @@
     # against its own nixpkgs-unstable and following ours risks build failures.
     #
     # We also callPackage a vendored copy of numtide's package.nix
-    # (home/config/shared/programs/hermes-agent-package.nix) against this same
+    # (home/modules/shared/programs/hermes-agent-package.nix) against this same
     # input's nixpkgs to splice extraPythonPackages (ddgs/html2text) into
     # hermesDeps — see hermes.nix for why the upstream NousResearch flake's
     # uv2nix packaging was unsuitable (build-time collision guard).
@@ -117,7 +117,7 @@
       # -----------------------------------------------------------------
       sharedModules = [
         ./home/home.nix
-        ./home/config/shared
+        ./home/modules/shared
         ./home/packages/shared.nix
         catppuccin.homeModules.catppuccin
         hermes-home.homeManagerModules.default
@@ -147,7 +147,7 @@
           inherit system;
           modules = [
             ./hosts/${hostname}/hardware.nix
-            ./nixos/config
+            ./nixos/modules
             ./nixos/packages/common.nix
             ./hosts/${hostname}/default.nix
           ]
@@ -163,7 +163,7 @@
           inherit system;
           modules = [
             mac-app-util.darwinModules.default
-            ./darwin/config
+            ./darwin/modules
             ./hosts/${hostname}/darwin.nix
           ]
           ++ extraModules;
@@ -173,13 +173,13 @@
       # --- Home Manager (standalone) ---
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./home/packages/linux.nix
-        ./home/config/linux
+        ./home/modules/linux
         determinate.homeManagerModules.default
       ];
 
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./home/packages/darwin.nix
-        ./home/config/darwin
+        ./home/modules/darwin
         determinate.homeManagerModules.default
         mac-app-util.homeManagerModules.default
       ];
