@@ -38,6 +38,12 @@
         # (engineering/, productivity/, ...). Default maxDepth = null is
         # correct here.
       };
+
+      nixos-ai-skill = {
+        input = "nixos-ai-skill";
+        subdir = ".";
+        idPrefix = "nixos";
+      };
     };
 
     # ------------------------------------------------------------------
@@ -53,6 +59,7 @@
       "mattpocock/engineering/improve-codebase-architecture"
       "mattpocock/engineering/research"
       "mattpocock/productivity/teach"
+      "nixos/nixos-ai-skill"
     ];
 
     # ------------------------------------------------------------------

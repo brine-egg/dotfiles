@@ -21,22 +21,6 @@
         "type": "github"
       }
     },
-    "anthropic-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784256457,
-        "narHash": "sha256-QZ+zJkyLd/42rxgtJEZSUOz9R75Tse6UXW7G0nOkFS8=",
-        "owner": "anthropics",
-        "repo": "skills",
-        "rev": "fa0fa64bdc967915dc8399e803be67759e1e62b8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anthropics",
-        "repo": "skills",
-        "type": "github"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -429,22 +413,6 @@
         "type": "github"
       }
     },
-    "juliusbrussee-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783497747,
-        "narHash": "sha256-+SH6Zy4qoYMU3BhO2FuPkC7h+i4rzqAEQbddatTNviE=",
-        "owner": "JuliusBrussee",
-        "repo": "skills",
-        "rev": "e8048f01abe2b8e2563df2078d0d705c895eb09a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "JuliusBrussee",
-        "repo": "skills",
-        "type": "github"
-      }
-    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -547,6 +515,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixGL",
+        "type": "github"
+      }
+    },
+    "nixos-ai-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784539065,
+        "narHash": "sha256-wFdJx7UIvBn/v0DQBdIiX+vyBCixp2+FoysyeQngBj4=",
+        "owner": "marceloeatworld",
+        "repo": "nixos-ai-skill",
+        "rev": "1d34a55e730ac9fb318f1d40444a05c4795b9feb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "marceloeatworld",
+        "repo": "nixos-ai-skill",
         "type": "github"
       }
     },
@@ -708,17 +692,16 @@
     "root": {
       "inputs": {
         "agent-skills": "agent-skills",
-        "anthropic-skills": "anthropic-skills",
         "catppuccin": "catppuccin",
         "darwin": "darwin",
         "determinate": "determinate",
         "hermes-home": "hermes-home",
         "home-manager": "home-manager_3",
-        "juliusbrussee-skills": "juliusbrussee-skills",
         "llm-agents": "llm-agents",
         "mac-app-util": "mac-app-util",
         "mattpocock-skills": "mattpocock-skills",
         "nixgl": "nixgl",
+        "nixos-ai-skill": "nixos-ai-skill",
         "nixpkgs": "nixpkgs_7"
       }
     },

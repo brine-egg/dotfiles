@@ -57,23 +57,28 @@
     # raw files under `skills/`). Referenced via
     # sources.anthropic-skills.input = "anthropic-skills" in
     # home/config/shared/programs/agent-skills.nix.
-    anthropic-skills = {
-      url = "github:anthropics/skills";
-      flake = false;
-    };
+    # anthropic-skills = {
+    #   url = "github:anthropics/skills";
+    #   flake = false;
+    # };
 
     # Source for `grill-me` (JuliusBrussee's stress-test plan auditor).
     # Referenced via sources.juliusbrussee-skills.
-    juliusbrussee-skills = {
-      url = "github:JuliusBrussee/skills";
-      flake = false;
-    };
+    # juliusbrussee-skills = {
+    #   url = "github:JuliusBrussee/skills";
+    #   flake = false;
+    # };
 
     # Source for `teach` and `research` (mattpocock's teaching + research
     # skills, both originally installed via the Hermes skills hub).
     # Referenced via sources.mattpocock-skills.
     mattpocock-skills = {
       url = "github:mattpocock/skills";
+      flake = false;
+    };
+
+    nixos-ai-skill = {
+      url = "github:marceloeatworld/nixos-ai-skill";
       flake = false;
     };
 
