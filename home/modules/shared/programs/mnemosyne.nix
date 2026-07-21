@@ -4,7 +4,7 @@
 #   - mnemosyne-memory (core library, pure Python, dep: PyYAML)
 #   - mnemosyne-hermes (plugin wrapper with Hermes entry points)
 #
-# We build both against numtidePythonPackages — the same Python 3.14
+# We build both against numtidePythonPackages — the same Python 3.13
 # interpreter hermes-agent is built against — so the packages land in
 # the same site-packages and are importable by both the `hermes` CLI
 # env and the HERMES_PYTHON gateway env (see hermes-agent-package.nix
@@ -89,7 +89,7 @@ let
   };
 
   # Plugin directory wrapper for extraPlugins. buildPythonPackage nests
-  # plugin.yaml at lib/python3.14/site-packages/mnemosyne_hermes/plugin.yaml;
+  # plugin.yaml at lib/python3.13/site-packages/mnemosyne_hermes/plugin.yaml;
   # the hermes-home HM module's extraPlugins activation checks for plugin.yaml
   # at the derivation root and symlinks the whole dir into ~/.hermes/plugins/.
   # This runCommand flattens the package dir so plugin.yaml lands at $out/.

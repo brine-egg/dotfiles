@@ -20,22 +20,34 @@ let
   #
   # CRITICAL interpreter match: callPackage against numtide's OWN nixpkgs
   # (inputs.llm-agents.inputs.nixpkgs), not this flake's `pkgs`. numtide built
-  # hermes-agent against that exact python3 (3.14) and pins the same nixpkgs in
-  # its lock, so (a) the base package + hermes-frontend npm build hit the
-  # numtide binary cache, and (b) ddgs/html2text come from the matching
-  # python3Packages — a different nixpkgs' python3 wheels are not
+  # hermes-agent against that exact python3 (pinned to 3.13 below) and pins
+  # the same nixpkgs in its lock, so (a) the base package + hermes-frontend
+  # npm build hit the numtide binary cache, and (b) ddgs/html2text come from
+  # the matching python3Packages — a different nixpkgs' python3 wheels are
+  # not cross-interpreter importable.
+  # Hermes officially targets Python 3.11–3.13. numtide's nixpkgs defaults
+  # python3 to 3.14, whose ThreadPoolExecutor internals
+  # (_create_worker_context / ctx-based _worker) break Hermes's
+  # DaemonThreadPoolExecutor (tools/daemon_pool.py) with
+  # `'DaemonThreadPoolExecutor' object has no attribute '_initializer'`.
+  # Pin python313 so the vendored package.nix builds against the supported
+  # runtime. All deps (hermesDeps, extraPythonPackages, mnemosyne) must use
+  # the same interpreter — a different nixpkgs' python3 wheels are not
   # cross-interpreter importable.
   numtidePkgs = inputs.llm-agents.inputs.nixpkgs.legacyPackages.${system};
-  numtidePythonPackages = numtidePkgs.python3Packages;
+  numtidePython = numtidePkgs.python313;
+  numtidePythonPackages = numtidePython.pkgs;
 
-  # Mnemosyne memory layer (mnemosyne-memory core + mnemosyne-hermes plugin
-  # wrapper). Built against numtide's Python 3.14 — same interpreter hermes-agent
-  # runs under — so both packages are importable in the CLI and gateway envs.
+  # Built against the pinned Python 3.13 (same interpreter hermes-agent
+  # runs under) so both packages are importable in the CLI and gateway envs.
   # See ./mnemosyne.nix for the dependency rationale and how to switch from
   # local embeddings to a remote embedding API.
-  mnemosyne = numtidePkgs.callPackage ./mnemosyne.nix { };
+  mnemosyne = numtidePkgs.callPackage ./mnemosyne.nix {
+    python3Packages = numtidePythonPackages;
+  };
 
   hermesAgent = numtidePkgs.callPackage ./hermes-agent-package.nix {
+    python3 = numtidePython;
     extraPythonPackages = [
       numtidePythonPackages.ddgs
       numtidePythonPackages.html2text

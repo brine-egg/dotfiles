@@ -239,7 +239,7 @@ let
     };
   });
 
-  # pyramid dropped its pkg_resources shim on python 3.14, so slack-bolt's
+  # pyramid dropped its pkg_resources shim on python 3.13+, so slack-bolt's
   # pyramid adapter tests fail at collection with ModuleNotFoundError.
   slack-bolt' = python3.pkgs.slack-bolt.overridePythonAttrs (old: {
     disabledTestPaths = (old.disabledTestPaths or [ ]) ++ [
