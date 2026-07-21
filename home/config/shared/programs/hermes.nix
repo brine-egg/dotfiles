@@ -106,9 +106,42 @@ in
         "hermes-lcm"
         "rtk-rewrite"
       ];
+      skills.disabled = [
+        "airtable"
+        "audiocraft-audio-generation"
+        "baoyu-infographic"
+        "claude-code"
+        "codex"
+        "comfyui"
+        "computer-use"
+        "excalidraw"
+        "gif-search"
+        "google-workspace"
+        "heartmula"
+        "himalaya"
+        "jupyter-live-kernel"
+        "manim-video"
+        "notion"
+        "openhue"
+        "p5js"
+        "petdex"
+        "polymarket"
+        "pretext"
+        "segment-anything-model"
+        "serving-llms-vllm"
+        "songwriting-and-ai-music"
+        "touchdesigner-mcp"
+        "xurl"
+        "yuanbao"
+      ];
       agent = {
         disabled_toolsets = [
           "x_search"
+          "computer_use"
+          "image_gen"
+          "browser"
+          "tts"
+          "cronjob"
         ];
         # Explicit reasoning effort so providers can't silently downgrade under
         # load (seen with StreamLake on GLM-5.2). Bump per-session with
