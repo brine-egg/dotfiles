@@ -22,13 +22,13 @@
       #   subdir = "skills";
       # };
 
-      juliusbrussee-skills = {
-        input = "juliusbrussee-skills";
-        subdir = "skills";
-        idPrefix = "juliusbrussee";
-        # JuliusBrussee's skills are flat (one level under skills/).
-        filter.maxDepth = 1;
-      };
+      # juliusbrussee-skills = {
+      #   input = "juliusbrussee-skills";
+      #   subdir = "skills";
+      #   idPrefix = "juliusbrussee";
+      #   # JuliusBrussee's skills are flat (one level under skills/).
+      #   filter.maxDepth = 1;
+      # };
 
       mattpocock-skills = {
         input = "mattpocock-skills";
@@ -46,7 +46,11 @@
     skills.enable = [
       # Hub-tracked skills reinstalled from canonical sources.
       # IDs are namespaced because we set idPrefix on the source.
-      "juliusbrussee/grill-me"
+      "mattpocock/productivity/grilling"
+      "mattpocock/engineering/grill-with-docs"
+      "mattpocock/engineering/domain-modeling"
+      "mattpocock/engineering/codebase-design"
+      "mattpocock/engineering/improve-codebase-architecture"
       "mattpocock/engineering/research"
       "mattpocock/productivity/teach"
     ];
