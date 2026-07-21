@@ -87,6 +87,12 @@
       structure = "symlink-tree";
     };
 
+    # Enable Pi support as experiment
+    targets.pi = {
+      enable = true;
+      structure = "symlink-tree";
+    };
+
     # ------------------------------------------------------------------
     # Excludes
     # ------------------------------------------------------------------
