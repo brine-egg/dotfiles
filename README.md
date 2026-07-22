@@ -1,6 +1,7 @@
 # brine's personal dotfiles and system config
 
-> [!IMPORTANT] NixOS and nix-darwin config are **UNTESTED** and contain only placeholder stubs for now.
+> [!IMPORTANT]
+> NixOS and nix-darwin config are **UNTESTED** and contain only placeholder stubs for now.
 
 ## About
 

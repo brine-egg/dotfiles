@@ -12,6 +12,8 @@
         "npm:pi-co-authored-by"
         "npm:pi-web-access"
         "npm:pi-lens"
+        "npm:@sting8k/pi-vcc"
+		"npm:@tomooshi/condensed-milk-pi"
       ];
       enableInstallTelemetry = true;
     };
@@ -25,6 +27,16 @@
   home.file.".pi/web-search.json" = {
     text = builtins.toJSON {
       workflow = "none";
+    };
+  };
+
+  # Manage pi-vcc (deterministic context compression) config
+  home.file.".pi/agent/pi-vcc-config.json" = {
+    text = builtins.toJSON {
+      "overrideDefaultCompaction" = true;
+      "smartKeepTail" = true;
+      "continueAfterThresholdCompact" = true;
+      "debug" = false;
     };
   };
 
