@@ -101,6 +101,7 @@
           modules = [
             mac-app-util.darwinModules.default
             ./darwin/config
+            ./darwin/packages/common.nix
             ./hosts/${hostname}/darwin.nix
             determinate.darwinModules.default
           ]

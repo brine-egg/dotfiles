@@ -29,16 +29,19 @@ This flake manages three kinds of configuration:
 ├── home/                     # Home Manager config
 │   ├── home.nix
 │   ├── config/               # shared, linux, darwin HM modules
-│   └── packages/              # shared, linux, darwin packages
+│   └── packages/             # shared, linux, darwin packages
 ├── nixos/                    # shared NixOS system modules
 │   ├── config/
-│   └── packages/
+│   │   └── system/           # one file per system component (boot, networking, users, …)
+│   └── packages/             # plain system package installs
 ├── darwin/                   # shared nix-darwin system modules
-│   └── config/
+│   ├── config/
+│   │   └── system/           # one file per system component (determinate, system defaults, …)
+│   └── packages/             # plain system package installs
 └── hosts/                    # per-host config
-    ├── desktop/               # NixOS host
-    ├── laptop/                # NixOS host
-    └── macbook/               # nix-darwin host
+    ├── desktop/              # NixOS host
+    ├── laptop/               # NixOS host
+    └── macbook/              # nix-darwin host
 ```
 
 ## Prerequisites
