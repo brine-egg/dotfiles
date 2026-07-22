@@ -37,6 +37,12 @@
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Paneru — macOS tiling window manager
+    paneru = {
+      url = "github:karinushka/paneru";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -48,6 +54,7 @@
       catppuccin,
       darwin,
       mac-app-util,
+      paneru,
       ...
     }@inputs:
     let
@@ -100,6 +107,7 @@
           inherit system;
           modules = [
             mac-app-util.darwinModules.default
+            paneru.darwinModules.paneru
             ./darwin/config
             ./darwin/packages/common.nix
             ./hosts/${hostname}/darwin.nix
