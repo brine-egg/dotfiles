@@ -1,4 +1,9 @@
-{ pkgs, inputs, lib, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 # ============================================================================
 # agent-skills: per-target skill selection
@@ -107,6 +112,9 @@ let
   piSkillAllow = [
     "mattpocock/productivity/grilling"
     "mattpocock/engineering/grill-with-docs"
+    "mattpocock/engineering/domain-modeling"
+    "mattpocock/engineering/resolving-merge-conflicts"
+    "nixos/nixos-ai-skill"
   ];
 
   # -- Shared exclude patterns --------------------------------------------
@@ -172,7 +180,8 @@ let
   #      but uses `programs.agent-skills-pi` and writes to
   #      `home.activation.agent-skills-pi` (unique name -> no collision
   #      with the upstream's `home.activation.agent-skills`).
-  piModule = { config, ... }:
+  piModule =
+    { config, ... }:
     let
       cfg = config.programs.agent-skills-pi;
       catalog = agentLib.discoverCatalog cfg.sources;
@@ -180,11 +189,11 @@ let
         inherit catalog;
         sources = cfg.sources;
         enableAll = cfg.skills.enableAll or false;
-        enable = cfg.skills.enable or [];
+        enable = cfg.skills.enable or [ ];
       };
       selection = agentLib.selectSkills {
         inherit catalog allowlist;
-        skills = cfg.skills.explicit or {};
+        skills = cfg.skills.explicit or { };
         sources = cfg.sources;
       };
       bundle = agentLib.mkBundle { inherit pkgs selection; };
@@ -198,7 +207,8 @@ let
         system = pkgs.stdenv.hostPlatform.system;
         excludePatterns = cfg.excludePatterns;
       };
-    in {
+    in
+    {
       options.programs.agent-skills-pi = lib.mkOption {
         type = lib.types.submodule {
           # Free-form-ish: we declare the same shape as the upstream's
@@ -215,7 +225,7 @@ let
             enable = lib.mkEnableOption "Per-target Agent Skills management (Pi instance).";
           };
         };
-        default = {};
+        default = { };
         description = ''
           Second instance of agent-skills for the Pi target. Uses the
           upstream's library functions directly so per-target skill
@@ -227,9 +237,9 @@ let
       };
 
       config = lib.mkIf cfg.enable {
-        home.activation.agent-skills-pi =
-          lib.mkIf (activeTargets != {})
-            (lib.hm.dag.entryAfter [ "writeBoundary" ] syncScript);
+        home.activation.agent-skills-pi = lib.mkIf (activeTargets != { }) (
+          lib.hm.dag.entryAfter [ "writeBoundary" ] syncScript
+        );
       };
     };
 in
