@@ -4,6 +4,7 @@
     ".p10k.zsh".source = ./dotfiles/.p10k.zsh;
     ".config/fsh".source = ./dotfiles/.config/fsh;
     ".hermes/skins/catppuccin.yaml".source = ./dotfiles/.hermes/skins/catppuccin.yaml;
+    ".hermes/plugins/web/local".source = ./dotfiles/.hermes/plugins/web/local;
 
     # Agent-only commit wrapper. Appends the Generated-By trailer that
     # SOUL.md requires, using the running Hermes version. Plain `git commit`
