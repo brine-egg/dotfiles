@@ -36,9 +36,9 @@ This flake manages three kinds of configuration:
 ├── darwin/                   # shared nix-darwin system modules
 │   └── modules/
 └── hosts/                    # per-host config
-    ├── desktop/               # NixOS host
-    ├── laptop/                # NixOS host
-    └── macbook/               # nix-darwin host
+    ├── desktop/              # NixOS host
+    ├── laptop/               # NixOS host
+    └── macbook/              # nix-darwin host
 ```
 
 ## Prerequisites

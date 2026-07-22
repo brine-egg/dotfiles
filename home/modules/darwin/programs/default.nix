@@ -1,5 +1,5 @@
 {
   imports = [
-    ./system
+    ./kitty.nix
   ];
 }
