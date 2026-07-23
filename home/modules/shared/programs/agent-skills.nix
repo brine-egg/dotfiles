@@ -8,37 +8,33 @@
 # ============================================================================
 # agent-skills: per-target skill selection
 # ============================================================================
-# Upstream `agent-skills-nix` (Kyure-A) builds ONE bundle from the union of
-# `skills.enable` + `skills.enableAll` + `skills.explicit`, then syncs that
-# same bundle to every enabled target. There is no per-target skill
+# Upstream `agent-skills-nix` (Kyure-A) builds ONE bundle per module instance
+# and syncs that bundle to every enabled target. There is no per-target skill
 # selection in upstream (confirmed by reading lib/default.nix and
 # modules/common.nix).
 #
-# To get per-target selection without an upstream PR, we instantiate
-# `programs.agent-skills` (Hermes) and a sibling `programs.agent-skills-pi`
-# (Pi) as two separate module instances. The upstream HM module is imported
-# once via flake.nix and is used as-is for Hermes. For Pi, we declare a
-# local option and wire it up by calling the upstream's library functions
-# directly (`inputs.agent-skills.lib.agent-skills`) -- this gives us a
-# second bundle + a uniquely-named `home.activation.agent-skills-pi` entry
-# that does not collide with the upstream's `home.activation.agent-skills`.
+# Two module instances are configured here:
 #
-# Both instances declare the same `sources` (the upstream's `discoverCatalog`
-# is cheap and idempotent; declaring it twice is required because the
-# library functions take the sources as input per-bundle).
+#   1. `programs.agent-skills` (Hermes) -- uses the upstream HM module as-is.
+#      One bundle for all Hermes skills, synced to `targets.hermes`. The
+#      upstream's `lib.mkDefault` defaults for `defaultTargets.<name>.dest`
+#      apply here automatically.
+#
+#   2. `programs.agent-skills-pi` (Pi) -- uses the local
+#      `mkAgentSkillsInstance` factory from `./agent-skills-instance.nix`.
+#      A second, independent bundle with a smaller skill allowlist. The
+#      factory exists specifically to make this kind of per-harness split
+#      cheap (one stanza per harness, no per-harness module boilerplate).
+#
+# Adding a third harness (Claude, Codex, OpenCode, ...): invoke
+# `mkAgentSkillsInstance "<harness>"` with the harness's sources / skills /
+# targets / excludePatterns, then add the returned module to `imports`.
+# See `mkAgentSkillsInstance` in `./agent-skills-instance.nix` for the full
+# contract.
 # ----------------------------------------------------------------------------
 
 let
-  # Re-import the upstream's lib with OUR inputs so source `input`
-  # references (e.g. `sources.mattpocock-skills.input = "mattpocock-skills"`)
-  # resolve against our flake's input registry, not the upstream's.
-  # The upstream's flake output `inputs.agent-skills.lib.agent-skills` is
-  # built with the upstream's own (empty) inputs, so it would throw
-  # "source X refers to unknown input X" when called from our flake.
-  agentLib = import (inputs.agent-skills + "/lib") {
-    inherit lib;
-    inputs = inputs;
-  };
+  mkAgentSkillsInstance = import ./agent-skills-instance.nix { inherit pkgs inputs lib; };
 
   # -- Shared source declarations ------------------------------------------
   # Each path input is a flake=false git source whose layout is just
@@ -164,96 +160,33 @@ let
     dest = "$HOME/.hermes/skills/nix-managed";
     structure = "symlink-tree";
   };
-
-  # -- Pi target: use the upstream default --------------------------------
-  # defaultTargets.pi.dest is "$HOME/.pi/agent/skills". We must set
-  # `dest` explicitly here because the upstream's HM module's
-  # `lib.mkDefault` defaulting (modules/common.nix: targets are filled
-  # with `lib.mkDefault` from `defaultTargets`) is only wired up inside
-  # the upstream's `programs.agent-skills` HM module -- not in our
-  # local Pi instance. We set `dest` directly to the upstream's
-  # default so this stays in lockstep with the upstream.
-  piTarget = {
-    enable = true;
-    dest = agentLib.defaultTargets.pi.dest;
-    structure = "symlink-tree";
-  };
-
-  # -- Pi-instance local module -------------------------------------------
-  # The upstream HM module reads `config.programs.agent-skills.*` and sets
-  # `home.activation.agent-skills`. We need a second, independent
-  # instance for Pi, so we:
-  #   1. Declare our own `programs.agent-skills-pi` option (free-form, so
-  #      we don't have to re-declare every upstream option type).
-  #   2. Drive a local `config` block that mirrors the upstream's logic
-  #      but uses `programs.agent-skills-pi` and writes to
-  #      `home.activation.agent-skills-pi` (unique name -> no collision
-  #      with the upstream's `home.activation.agent-skills`).
-  piModule =
-    { config, ... }:
-    let
-      cfg = config.programs.agent-skills-pi;
-      catalog = agentLib.discoverCatalog cfg.sources;
-      allowlist = agentLib.allowlistFor {
-        inherit catalog;
-        sources = cfg.sources;
-        enableAll = cfg.skills.enableAll or false;
-        enable = cfg.skills.enable or [ ];
-      };
-      selection = agentLib.selectSkills {
-        inherit catalog allowlist;
-        skills = cfg.skills.explicit or { };
-        sources = cfg.sources;
-      };
-      bundle = agentLib.mkBundle { inherit pkgs selection; };
-      activeTargets = agentLib.targetsFor {
-        targets = cfg.targets;
-        system = pkgs.stdenv.hostPlatform.system;
-      };
-      syncScript = agentLib.mkSyncScript {
-        inherit pkgs bundle;
-        targets = activeTargets;
-        system = pkgs.stdenv.hostPlatform.system;
-        excludePatterns = cfg.excludePatterns;
-      };
-    in
-    {
-      options.programs.agent-skills-pi = lib.mkOption {
-        type = lib.types.submodule {
-          # Free-form-ish: we declare the same shape as the upstream's
-          # `programs.agent-skills` option (sources, skills, targets,
-          # excludePatterns, enable) so users can copy the same config
-          # shape across the two instances. We don't reuse the upstream's
-          # submodule types directly (they're not exported); we accept
-          # the same structure as `attrsOf anything` and let the library
-          # functions throw on malformed input. The hermes `programs.agent-skills`
-          # instance still uses the upstream's strict types via the
-          # imported HM module.
-          freeformType = lib.types.attrsOf lib.types.anything;
-          options = {
-            enable = lib.mkEnableOption "Per-target Agent Skills management (Pi instance).";
-          };
-        };
-        default = { };
-        description = ''
-          Second instance of agent-skills for the Pi target. Uses the
-          upstream's library functions directly so per-target skill
-          selection is possible (the upstream's `programs.agent-skills`
-          HM module does not support per-target selection). Configure
-          with the same `sources`/`skills`/`targets`/`excludePatterns`
-          shape as the upstream's `programs.agent-skills`.
-        '';
-      };
-
-      config = lib.mkIf cfg.enable {
-        home.activation.agent-skills-pi = lib.mkIf (activeTargets != { }) (
-          lib.hm.dag.entryAfter [ "writeBoundary" ] syncScript
-        );
-      };
-    };
 in
 {
-  imports = [ piModule ];
+  imports = [
+    # Pi instance: built from `mkAgentSkillsInstance`. Returns a self-
+    # contained HM module that wires up `programs.agent-skills-pi` and
+    # `home.activation.agent-skills-pi`. The upstream's
+    # `defaultTargets.pi.dest` is filled in by the factory's internal
+    # `lib.mkDefault` defaulting, so callers only need to set overrides.
+    (mkAgentSkillsInstance "pi" {
+      enable = true;
+
+      sources = sharedSources;
+
+      skills.enable = piSkillAllow;
+
+      targets.pi = {
+        enable = true;
+        # dest left unset -> factory uses agentLib.defaultTargets.pi.dest
+        # (= "$HOME/.pi/agent/skills"). The factory resolves this eagerly
+        # because upstream's mkSyncScript embeds dest in a bash string and
+        # does not unwrap lib.mkDefault overrides.
+        structure = "symlink-tree";
+      };
+
+      excludePatterns = sharedExclude;
+    })
+  ];
 
   # =======================================================================
   # Instance 1: Hermes (full skill suite)
@@ -269,25 +202,6 @@ in
     skills.enable = hermesSkillAllow;
 
     targets.hermes = hermesTarget;
-
-    excludePatterns = sharedExclude;
-  };
-
-  # =======================================================================
-  # Instance 2: Pi (reduced, agent-agnostic subset)
-  # =======================================================================
-  # Uses our local `programs.agent-skills-pi` option (declared in
-  # `piModule` above) which calls the upstream's library functions
-  # directly. Produces a `home.activation.agent-skills-pi` entry (unique
-  # name, so no collision with the Hermes activation).
-  programs.agent-skills-pi = {
-    enable = true;
-
-    sources = sharedSources;
-
-    skills.enable = piSkillAllow;
-
-    targets.pi = piTarget;
 
     excludePatterns = sharedExclude;
   };
