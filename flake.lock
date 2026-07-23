@@ -759,6 +759,26 @@
         "type": "github"
       }
     },
+    "noctalia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784768158,
+        "narHash": "sha256-GhrQw9jeHxNc8nWcfl37hg82Ta1acLwrJPksBi8xkrI=",
+        "owner": "noctalia-dev",
+        "repo": "noctalia",
+        "rev": "79530a6290fbf5ba5e34db61d4729abc7eea3920",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "noctalia",
+        "type": "github"
+      }
+    },
     "paneru": {
       "inputs": {
         "flake-parts": "flake-parts_4",
@@ -812,6 +832,7 @@
         "nixgl": "nixgl",
         "nixos-ai-skill": "nixos-ai-skill",
         "nixpkgs": "nixpkgs_7",
+        "noctalia": "noctalia",
         "paneru": "paneru",
         "ponytail-skills": "ponytail-skills"
       }

@@ -26,6 +26,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Noctalia Wayland desktop shell
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # nix-darwin for macOS system configuration
     darwin = {
       url = "github:nix-darwin/nix-darwin";
@@ -118,6 +124,7 @@
       home-manager,
       nixgl,
       catppuccin,
+      noctalia,
       darwin,
       mac-app-util,
       hermes-home,
@@ -133,6 +140,7 @@
         ./home/home.nix
         ./home/modules/shared
         ./home/packages/shared.nix
+        determinate.homeManagerModules.default
         catppuccin.homeModules.catppuccin
         hermes-home.homeManagerModules.default
         agent-skills.homeManagerModules.default
@@ -191,13 +199,12 @@
       homeConfigurations."brine" = mkHome "x86_64-linux" [
         ./home/packages/linux.nix
         ./home/modules/linux
-        determinate.homeManagerModules.default
+        noctalia.homeModules.default
       ];
 
       homeConfigurations."brine-darwin" = mkHome "aarch64-darwin" [
         ./home/packages/darwin.nix
         ./home/modules/darwin
-        determinate.homeManagerModules.default
         mac-app-util.homeManagerModules.default
       ];
 

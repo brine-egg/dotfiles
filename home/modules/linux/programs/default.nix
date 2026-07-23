@@ -1,6 +1,7 @@
 {
   imports = [
-    ./wayle.nix
+    ./noctalia.nix
+    # ./wayle.nix
     ./wleave.nix
   ];
 }
