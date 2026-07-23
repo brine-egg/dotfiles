@@ -122,6 +122,18 @@ let
     "nixos/nixos-ai-skill"
   ];
 
+  # Command Code skill set
+  cmdSkillAllow = [
+    "mattpocock/productivity/grilling"
+    "mattpocock/engineering/grill-with-docs"
+    "mattpocock/engineering/domain-modeling"
+    "mattpocock/engineering/resolving-merge-conflicts"
+    "ponytail/ponytail"
+    "ponytail/ponytail-review"
+    "ponytail/ponytail-audit"
+    "nixos/nixos-ai-skill"
+  ];
+
   # -- Shared exclude patterns --------------------------------------------
   # Applied PER INSTANCE (rsync --exclude scope is the bundle root, not the
   # target root, so each instance's exclude list is independent). Default
@@ -181,6 +193,23 @@ in
         # (= "$HOME/.pi/agent/skills"). The factory resolves this eagerly
         # because upstream's mkSyncScript embeds dest in a bash string and
         # does not unwrap lib.mkDefault overrides.
+        structure = "symlink-tree";
+      };
+
+      excludePatterns = sharedExclude;
+    })
+
+    # Command Code instance
+    (mkAgentSkillsInstance "cmd" {
+      enable = true;
+
+      sources = sharedSources;
+
+      skills.enable = cmdSkillAllow;
+
+      targets.cmd = {
+        enable = true;
+        dest = "$HOME/.commandcode/skills";
         structure = "symlink-tree";
       };
 
