@@ -14,12 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nixGL for GPU-accelerated apps on non-NixOS Linux
-    nixgl = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Catppuccin theme for supported programs
     catppuccin = {
       url = "github:catppuccin/nix";
@@ -122,7 +116,6 @@
       nixpkgs,
       determinate,
       home-manager,
-      nixgl,
       catppuccin,
       noctalia,
       darwin,
@@ -151,7 +144,6 @@
         let
           pkgs = import nixpkgs {
             inherit system;
-            overlays = nixpkgs.lib.optionals (system == "x86_64-linux") [ nixgl.overlay ];
           };
         in
         home-manager.lib.homeManagerConfiguration {
