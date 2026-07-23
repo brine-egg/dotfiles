@@ -782,6 +782,22 @@
         "type": "github"
       }
     },
+    "ponytail-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784151135,
+        "narHash": "sha256-Y7d4s7uqjH6IbEXhqAiQ+yaxr6iiGcv2X64LuMtG1T8=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "16f29800fd2681bdf24f3eb4ccffe38be3baec6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-skills": "agent-skills",
@@ -796,7 +812,8 @@
         "nixgl": "nixgl",
         "nixos-ai-skill": "nixos-ai-skill",
         "nixpkgs": "nixpkgs_7",
-        "paneru": "paneru"
+        "paneru": "paneru",
+        "ponytail-skills": "ponytail-skills"
       }
     },
     "systems": {

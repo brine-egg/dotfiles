@@ -69,6 +69,12 @@ let
       # correct here.
     };
 
+    ponytail-skills = {
+      input = "ponytail-skills";
+      subdir = "skills";
+      idPrefix = "ponytail";
+    };
+
     nixos-ai-skill = {
       input = "nixos-ai-skill";
       subdir = ".";
@@ -114,6 +120,9 @@ let
     "mattpocock/engineering/grill-with-docs"
     "mattpocock/engineering/domain-modeling"
     "mattpocock/engineering/resolving-merge-conflicts"
+    "ponytail/ponytail"
+    "ponytail/ponytail-review"
+    "ponytail/ponytail-audit"
     "nixos/nixos-ai-skill"
   ];
 

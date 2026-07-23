@@ -77,6 +77,13 @@
       flake = false;
     };
 
+    # Source for the "Ponytail" skill set.
+    # Referenced via sources.ponytail-skills.
+    ponytail-skills = {
+      url = "github:DietrichGebert/ponytail";
+      flake = false;
+    };
+
     nixos-ai-skill = {
       url = "github:marceloeatworld/nixos-ai-skill";
       flake = false;
