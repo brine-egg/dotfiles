@@ -4,5 +4,5 @@ includes = ["*.nix"]
 
 [formatter.markdown]
 command = "mdformat"
-options = [ "--wrap", "120" ]
+options = [ "--wrap", "120", "--extensions", "gfm" ]
 includes = ["*.md"]

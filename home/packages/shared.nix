@@ -10,7 +10,10 @@
     pkgs.lua-language-server
     pkgs.lsd
     pkgs.manix
-    pkgs.mdformat
+    (pkgs.mdformat.withPlugins (p: [
+      p.mdformat-gfm
+      p.mdformat-tables
+    ]))
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
     pkgs.nixd
