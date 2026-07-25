@@ -7,6 +7,7 @@
   home.packages = [
     pkgs.bat
     pkgs.fzf
+    pkgs.lua-language-server
     pkgs.lsd
     pkgs.manix
     pkgs.mdformat
