@@ -89,7 +89,12 @@ in
         search_backend = "ddgs";
         extract_backend = "local";
       };
-      context.engine = "lcm";
+      context = {
+        engine = "lcm";
+      };
+      compression = {
+        threshold_tokens = 150000;
+      };
       memory = {
         # Provider name must match the plugin directory name in ~/.hermes/plugins/.
         # The HM extraPlugins activation creates nix-managed-<getName> symlinks,
