@@ -25,6 +25,7 @@
     pkgs.rustup
     pkgs.stylua
     pkgs.tmux
+    pkgs.tokscale
     pkgs.treefmt
     pkgs.yazi
     pkgs.yt-dlp
