@@ -70,8 +70,8 @@ in
       mnemosyne.mnemosyne-hermes-plugin-dir
     ];
     settings = {
-      providers = [ "openrouter" ];
-      model = "xiaomi/mimo-v2.5-pro";
+      providers = [ "deepseek" ];
+      model = "deepseek-v4-pro";
       terminal.backend = "local";
       display = {
         interface = "tui";
