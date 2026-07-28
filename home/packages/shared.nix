@@ -28,6 +28,7 @@
     pkgs.tmux
     pkgs.tokscale
     pkgs.treefmt
+    pkgs.tree-sitter
     pkgs.yazi
     pkgs.yt-dlp
     pkgs.zoxide
