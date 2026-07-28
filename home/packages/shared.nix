@@ -9,6 +9,7 @@
     pkgs.fzf
     pkgs.lua-language-server
     pkgs.lsd
+    pkgs.marksman
     pkgs.manix
     (pkgs.mdformat.withPlugins (p: [
       p.mdformat-gfm
