@@ -8,6 +8,7 @@
     ./fzf.nix
     ./git.nix
     ./hermes.nix
+    ./navi.nix
     ./opencode.nix
     ./pi.nix
     ./tmux.nix
