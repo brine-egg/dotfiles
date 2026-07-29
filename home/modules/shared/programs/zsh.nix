@@ -78,6 +78,15 @@
         ZVM_INIT_MODE=sourcing
       }
 
+      # Restore fzf keybindings that zsh-vi-mode clobbers during zvm_init.
+      # ZVM rebinds ^R/^S to native zsh history search at precmd time
+      # (after fzf has already set them up). The after_init hook runs
+      # post-zvm_init, so this re-applies fzf's widgets correctly.
+      function zvm_after_init() {
+        bindkey -M viins '^R' fzf-history-widget
+        bindkey -M viins '^S' fzf-history-widget
+      }
+
       # Catppuccin theme for Fast Syntax Highlighting
       fast-theme XDG:catppuccin-mocha -q
 
