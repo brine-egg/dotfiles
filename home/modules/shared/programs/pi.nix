@@ -8,12 +8,12 @@
       theme = "catppuccin-mocha-lavender";
       packages = [
         "git:github.com/XYenon/catppuccin-pi-coding-agent"
-        "npm:@aliou/pi-guardrails"
-        "npm:pi-co-authored-by"
-        "npm:pi-web-access"
-        "npm:pi-lens"
-        "npm:@sting8k/pi-vcc"
-        "npm:@tomooshi/condensed-milk-pi"
+        "npm:@aliou/pi-guardrails@0.16.0"
+        "npm:pi-co-authored-by@0.2.0"
+        "npm:pi-web-access@0.15.0"
+        "npm:pi-lens@3.8.73"
+        "npm:@sting8k/pi-vcc@0.5.0"
+        "npm:@tomooshi/condensed-milk-pi@1.9.0"
       ];
       enableInstallTelemetry = true;
     };
