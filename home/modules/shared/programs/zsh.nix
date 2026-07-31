@@ -13,8 +13,12 @@
     enableCompletion = true;
     completionInit = ''
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+      zstyle ':completion:*' menu no
+      zstyle ':completion:*:descriptions' format '[%d]'
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
       setopt NO_CASE_GLOB
       setopt MENU_COMPLETE
+      autoload -Uz compinit && compinit
     '';
 
     # Persistent history
@@ -61,7 +65,7 @@
       source "$HOME/.env"
     '';
 
-    # Runs before plugin sourcing
+    # Runs after plugin sourcing (and after fzf --zsh integration)
     initExtra = ''
       # Powerlevel10k theme + p10k config
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
@@ -96,6 +100,12 @@
           . /home/brine/.nix-profile/etc/profile.d/nix.sh
         fi
       ''}
+
+      # fzf-tab: sourced here (initExtra) because it must run AFTER
+      # fzf's own shell integration (fzf --zsh), which rebinds ^I.
+      # HM sources plugins before fzf --zsh, so sourcing fzf-tab as a
+      # plugin would get its ^I binding immediately overwritten.
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
     '';
 
     # Fish-like autosuggestions (sourced by Home Manager)
@@ -118,11 +128,6 @@
         src = pkgs.zsh-vi-mode;
         file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
       }
-	  {
-	  	name = "fzf-tab";
-		src = pkgs.zsh-fzf-tab;
-		file = "share/fzf-tab/fzf-tab.plugin.zsh";
-	  }
       {
         name = "yazi-zoxide-zsh";
         src = pkgs.fetchFromGitHub {
