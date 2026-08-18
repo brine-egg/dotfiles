@@ -11,6 +11,7 @@
     ./navi.nix
     ./opencode.nix
     ./pi.nix
+	./superfile.nix
     ./tmux.nix
 	./vifm.nix
     ./yazi.nix
