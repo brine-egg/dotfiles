@@ -11,13 +11,18 @@
 # that hermes already ships.
 #
 # Sync: when bumping the hermes-agent version in inputs.llm-agents, copy the
-# upstream package.nix verbatim and re-apply the three changes marked
-# `# [vendored-change]` below (extraPythonPackages arg, `++ extraPythonPackages`
-# in hermesDeps, and the doInstallCheck/meta.maintainers optionals).
+# upstream package.nix verbatim (plus any `*.patch` files it references) and
+# re-apply the `# [vendored-change]` edits below:
+#   1. add `extraPythonPackages ? [ ]` and splice it into hermesDeps;
+#   2. drop `flake`/`versionCheckHook`/`versionCheckHomeHook` from the arg list
+#      (flake-scope + in-repo args not present when callPackage'd against
+#      numtide's bare nixpkgs) and set doInstallCheck = false;
+#   3. drop meta.maintainers (needs flake.lib.maintainers).
 {
   lib,
   stdenv,
   python3,
+  rustPlatform,
   fetchFromGitHub,
   fetchPypi,
   buildNpmPackage,
@@ -30,39 +35,48 @@
 }:
 
 let
-  exa-py = python3.pkgs.buildPythonPackage rec {
-    pname = "exa-py";
-    version = "2.10.2";
+  # Native (PyO3) runtime for hermes' Relay lifecycle and shared metrics;
+  # PyPI ships wheels only, so build from source with maturin.
+  nemo-relay = python3.pkgs.buildPythonPackage rec {
+    pname = "nemo-relay";
+    version = "0.7.3";
     pyproject = true;
 
-    src = fetchPypi {
-      pname = "exa_py";
-      inherit version;
-      hash = "sha256-94HzCxmfEQIzM4RyitrmS7Faa7yr+pfpH9cF+QrP/EU=";
+    src = fetchFromGitHub {
+      owner = "NVIDIA";
+      repo = "NeMo-Relay";
+      tag = version;
+      hash = "sha256-g7xHQOcccuyHIBiVY5GQHpd1vk99RMwuw923OR4+x3E=";
     };
 
-    build-system = with python3.pkgs; [
-      poetry-core
-    ];
+    cargoDeps = rustPlatform.fetchCargoVendor {
+      inherit src;
+      name = "nemo-relay-${version}";
+      hash = "sha256-Re/R/0aSxFNNG9jnbSg+3D0OhQV1mPyxmIJT7ExFaP0=";
+    };
 
-    dependencies = with python3.pkgs; [
-      httpcore
-      httpx
-      openai
-      pydantic
-      python-dotenv
-      requests
-      typing-extensions
-    ];
+    nativeBuildInputs =
+      with rustPlatform;
+      [
+        cargoSetupHook
+        maturinBuildHook
+      ]
+      # The 0.7.3 tag still carries version 0.7.0 in the workspace Cargo.toml
+      # (pyproject's version is dynamic from it), which fails the metadata
+      # check and hermes' nemo-relay>=0.7.1 requirement.
+      ++ [ python3.pkgs.pyprojectVersionPatchHook ];
 
-    pythonImportsCheck = [ "exa_py" ];
+    pythonImportsCheck = [
+      "nemo_relay"
+      "nemo_relay._native"
+    ];
 
     meta = with lib; {
-      description = "Python SDK for Exa API";
-      homepage = "https://github.com/exa-labs/exa-py";
-      license = licenses.mit;
+      description = "Python bindings for the NeMo Relay agent runtime";
+      homepage = "https://github.com/NVIDIA/NeMo-Relay";
+      license = licenses.asl20;
       sourceProvenance = with sourceTypes; [ fromSource ];
-      platforms = platforms.all;
+      platforms = platforms.unix;
     };
   };
 
@@ -140,13 +154,13 @@ let
     };
   };
 
-  version = "2026.7.7";
+  version = "2026.8.16";
 
   src = fetchFromGitHub {
     owner = "NousResearch";
     repo = "hermes-agent";
     tag = "v${version}";
-    hash = "sha256-Yk/BXRlNJgfeqjy8hDOT/HbKgevWTH786Df+sQ3g9MU=";
+    hash = "sha256-TsWcNR6JVj+PaqwodGrtcIgmOG6bzXtIDWw+e2txPdk=";
   };
 
   # Upstream moved ui-tui/ and web/ into npm workspaces with a single root
@@ -157,11 +171,17 @@ let
   hermes-frontend = buildNpmPackage {
     pname = "hermes-frontend";
     inherit version src;
-    npmDepsHash = "sha256-qDXGL/INHPW0pTF4SRVL1dS5XVh2X85dEE4JhrAQeqU=";
+    npmDepsHash = "sha256-s5gdscyuI2FzUrRLlcw5ADgsTYmLdaO+oCCyoSZcUIU=";
 
     # The apps/desktop workspace pulls in electron; skip its binary download
     # and all install scripts — the esbuild/vite builds below don't need them.
-    npmFlags = [ "--ignore-scripts" ];
+    # Upstream's .npmrc sets engine-strict=true and package.json rejects the
+    # npm range shipped with nixpkgs' nodejs to work around a min-release-age
+    # bug, which is irrelevant for the offline install here.
+    npmFlags = [
+      "--ignore-scripts"
+      "--engine-strict=false"
+    ];
     env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
 
     buildPhase = ''
@@ -218,14 +238,17 @@ let
       # Skills Hub
       pyjwt
       cryptography
+      # Relay lifecycle + shared metrics
+      nemo-relay
     ]
     # faster-whisper -> av SIGKILLs during import on darwin; voice is optional.
     ++ lib.optionals stdenv.hostPlatform.isLinux [ faster-whisper ]
     ++ optionalDeps.gateway
     ++ optionalDeps.misc
     # [vendored-change] extra modules requested by the user (ddgs search
-    # backend, html2text for the local web extractor). withPackages dedups by
-    # canonical name, so transitively-shared deps (click, etc.) don't collide.
+    # backend, html2text for the local web extractor, mnemosyne memory).
+    # withPackages dedups by canonical name, so transitively-shared deps
+    # (click, pyyaml, httpx, etc.) don't collide.
     ++ extraPythonPackages;
 
   # Upstream extras only warn-and-disable at runtime when missing (#4175), so
@@ -239,7 +262,15 @@ let
     };
   });
 
-  # pyramid dropped its pkg_resources shim on python 3.13+, so slack-bolt's
+  # nixpkgs' firecrawl-py 2.8.0 builds from the firecrawl monorepo tag v2.8.0,
+  # whose python-sdk pyproject declares a different SDK version, so the new
+  # pythonMetadataCheckPhase fails. Skip the check until nixpkgs fixes the
+  # version mismatch.
+  firecrawl-py' = python3.pkgs.firecrawl-py.overridePythonAttrs {
+    dontCheckPythonMetadata = true;
+  };
+
+  # pyramid dropped its pkg_resources shim on python 3.14, so slack-bolt's
   # pyramid adapter tests fail at collection with ModuleNotFoundError.
   slack-bolt' = python3.pkgs.slack-bolt.overridePythonAttrs (old: {
     disabledTestPaths = (old.disabledTestPaths or [ ]) ++ [
@@ -247,14 +278,21 @@ let
     ];
   });
 
-  # nixpkgs pins firecrawl-py to the monorepo git tag (v2.8.0) as its
-  # `version`, but the Python SDK at that tag reports its own version
-  # (4.14.0) via setup.py's dynamic get_version(). pythonMetadataCheckPhase
-  # compares the two and fails. Override `version` to the SDK's real version
-  # while keeping `src` pinned to the monorepo tag (the two are unrelated).
-  firecrawl-py' = python3.pkgs.firecrawl-py.overridePythonAttrs (old: {
-    version = "4.14.0";
-    src = old.src;
+  # Upstream pins agent-client-protocol==0.9.0; nixpkgs' 0.11.x regenerated the
+  # ACP schema and dropped ModelInfo/SetSessionModelResponse/SessionModelState,
+  # which acp_adapter still imports, so hermes-acp fails at startup (#7650).
+  agent-client-protocol' = python3.pkgs.agent-client-protocol.overridePythonAttrs (old: {
+    version = "0.9.0";
+    src = old.src.override {
+      tag = "0.9.0";
+      hash = "sha256-8Xf2S85yNsP/HhpCw9UqdoDdeDHdggvYcnvJbilAVuU=";
+    };
+    # 0.9.0 predates the tests/http suite that nixpkgs' expression disables.
+    disabledTestPaths = [ ];
+    disabledTests = (old.disabledTests or [ ]) ++ [
+      # subprocess spawn exceeds the 2s timeout in the sandbox
+      "test_run_agent_stdio_buffer_limit"
+    ];
   });
 
   optionalDeps = with python3.pkgs; {
@@ -291,7 +329,7 @@ let
       # [pty]
       ptyprocess
       # [acp]
-      agent-client-protocol
+      agent-client-protocol'
       # [voice]
       sounddevice
       numpy
@@ -325,16 +363,26 @@ python3.pkgs.buildPythonApplication {
   # into the read-only store on any drift, silently disabling the feature
   # (e.g. nixpkgs aiosqlite 0.21.0 vs hermes pin 0.22.1 disabled matrix).
   # The closure already provides every dep, so presence is sufficient.
+  # Dashboard slash workers re-exec the bare sys.executable, which cannot
+  # import Hermes modules or its dependencies under Nix; run them with the
+  # wrapper-provided interpreter and source root instead of leaking a global
+  # PYTHONPATH into every subprocess Hermes spawns.
+  # DaemonThreadPoolExecutor mirrors CPython <=3.13 ThreadPoolExecutor
+  # internals; Python 3.14 refactored _worker around WorkerContext, so every
+  # tool call fails with AttributeError: no attribute '_initializer' (#7725).
+  patches = [
+    ./slash-worker-hermes-python.patch
+    ./daemon-pool-python314.patch
+  ];
+
   postPatch = ''
     substituteInPlace tools/lazy_deps.py \
       --replace-fail 'Version(installed) in SpecifierSet(spec_tail)' 'True'
   '';
 
-  # numtide's nixpkgs ships setuptools 83.0.0, but hermes pins
-  # `setuptools>=77.0,<83` in build-system.requires. The >=77 floor is
-  # load-bearing (PEP 639 license). The <83 cap is just a precautionary
-  # upper bound; setuptools 83 builds hermes correctly. Skip the check.
-  pypaBuildFlags = [ "--skip-dependency-check" ];
+  # setup.py refuses to build wheels/sdists unless it knows this is a Nix
+  # (uv2nix-style) build; upstream gates it behind this env var.
+  env.HERMES_NIX_BUILD = "1";
 
   dependencies = hermesDeps;
   optional-dependencies = optionalDeps;
@@ -355,13 +403,16 @@ python3.pkgs.buildPythonApplication {
     "--set"
     "HERMES_NODE"
     "${nodejs}/bin/node"
-    # Skills are copied to $out/share/hermes in postInstall; point hermes at them.
+    # Runtime data is copied to $out/share/hermes in postInstall; point Hermes at it.
     "--set"
     "HERMES_BUNDLED_SKILLS"
     "${placeholder "out"}/share/hermes/skills"
     "--set"
     "HERMES_OPTIONAL_SKILLS"
     "${placeholder "out"}/share/hermes/optional-skills"
+    "--set"
+    "HERMES_BUNDLED_PLUGINS"
+    "${placeholder "out"}/share/hermes/plugins"
     # Disable runtime pip installs; absent extras disable cleanly.
     "--set"
     "HERMES_DISABLE_LAZY_INSTALLS"
@@ -373,12 +424,14 @@ python3.pkgs.buildPythonApplication {
     "${nodejs}/bin"
   ];
 
-  # Skills are shipped as setup.py data_files, which the wheel build drops;
-  # install them manually.
+  # Upstream keeps runtime data outside site-packages and locates it through
+  # wrapper environment variables. Preserve that layout because setuptools
+  # intentionally omits plugin manifests from the wheel since 2026.8.3.
   postInstall = ''
     mkdir -p $out/share/hermes
     cp -r ${src}/skills $out/share/hermes/skills
     cp -r ${src}/optional-skills $out/share/hermes/optional-skills
+    cp -r ${src}/plugins $out/share/hermes/plugins
   '';
 
   pythonRelaxDeps = [
@@ -400,20 +453,26 @@ python3.pkgs.buildPythonApplication {
     "rich"
     "pillow"
     "croniter"
+    "exa-py"
   ];
 
   pythonImportsCheck = [
     "hermes_cli"
     "hermes_cli.dashboard_auth"
     "hermes_cli.proxy"
+    # #7650: acp_adapter needs the pre-0.11 ACP schema; assert it imports.
+    "acp_adapter.server"
     # #4175: adapters swallow ImportError, so assert these import.
     "slack_bolt"
     "discord"
     "telegram.ext"
     "croniter"
+    # relay_runtime imports this lazily and silently degrades to a noop
+    # runtime when missing, so assert it imports.
+    "nemo_relay"
   ];
 
-  # [vendored-change] skip install-check: it needs numtide-internal
+  # [vendored-change] skip install-check: it needs numtide's in-repo
   # versionCheckHomeHook (a writable-HOME setup hook) and runs import sanity
   # checks already validated upstream in the numtide CI/cache.
   doInstallCheck = false;
@@ -429,14 +488,13 @@ python3.pkgs.buildPythonApplication {
     changelog = "https://github.com/NousResearch/hermes-agent/releases/tag/v${version}";
     license = licenses.mit;
     sourceProvenance = with sourceTypes; [ fromSource ];
-    # x86_64-darwin: pyarrow (via faster-whisper chain) broken there.
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
       "aarch64-darwin"
     ];
-    # [vendored-change] numtide's flake.lib.maintainers alias isn't available
-    # outside that flake; drop the maintainer attribution in the vendored copy.
+    # [vendored-change] drop maintainers: flake.lib.maintainers isn't available
+    # outside numtide's flake scope.
     mainProgram = "hermes";
   };
 }
