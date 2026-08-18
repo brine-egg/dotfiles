@@ -210,7 +210,7 @@ let
       mcp
       # Tools
       exa-py
-      firecrawl-py
+      firecrawl-py'
       parallel-web
       fal-client
       # Text-to-speech
@@ -245,6 +245,16 @@ let
     disabledTestPaths = (old.disabledTestPaths or [ ]) ++ [
       "tests/adapter_tests/pyramid/"
     ];
+  });
+
+  # nixpkgs pins firecrawl-py to the monorepo git tag (v2.8.0) as its
+  # `version`, but the Python SDK at that tag reports its own version
+  # (4.14.0) via setup.py's dynamic get_version(). pythonMetadataCheckPhase
+  # compares the two and fails. Override `version` to the SDK's real version
+  # while keeping `src` pinned to the monorepo tag (the two are unrelated).
+  firecrawl-py' = python3.pkgs.firecrawl-py.overridePythonAttrs (old: {
+    version = "4.14.0";
+    src = old.src;
   });
 
   optionalDeps = with python3.pkgs; {
@@ -320,6 +330,12 @@ python3.pkgs.buildPythonApplication {
       --replace-fail 'Version(installed) in SpecifierSet(spec_tail)' 'True'
   '';
 
+  # numtide's nixpkgs ships setuptools 83.0.0, but hermes pins
+  # `setuptools>=77.0,<83` in build-system.requires. The >=77 floor is
+  # load-bearing (PEP 639 license). The <83 cap is just a precautionary
+  # upper bound; setuptools 83 builds hermes correctly. Skip the check.
+  pypaBuildFlags = [ "--skip-dependency-check" ];
+
   dependencies = hermesDeps;
   optional-dependencies = optionalDeps;
 
@@ -383,6 +399,7 @@ python3.pkgs.buildPythonApplication {
     # nixpkgs moved past upstream's == pins
     "rich"
     "pillow"
+    "croniter"
   ];
 
   pythonImportsCheck = [
