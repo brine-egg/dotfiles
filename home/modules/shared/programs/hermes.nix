@@ -70,8 +70,14 @@ in
       mnemosyne.mnemosyne-hermes-plugin-dir
     ];
     settings = {
-      providers = [ "deepseek" ];
-      model = "deepseek-v4-pro";
+      providers = [
+        "deepseek"
+        "openrouter"
+      ];
+      model = {
+        default = "deepseek-v4-pro";
+        provider = "deepseek";
+      };
       terminal.backend = "local";
       display = {
         interface = "tui";
@@ -93,7 +99,7 @@ in
         engine = "lcm";
       };
       compression = {
-        threshold_tokens = 150000;
+        threshold_tokens = 200000;
       };
       memory = {
         # Provider name must match the plugin directory name in ~/.hermes/plugins/.
