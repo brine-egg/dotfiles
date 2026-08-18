@@ -13,7 +13,6 @@
     pkgs.manix
     (pkgs.mdformat.withPlugins (p: [
       p.mdformat-gfm
-      p.mdformat-tables
     ]))
     pkgs.nerd-fonts.roboto-mono
     pkgs.nh
@@ -26,7 +25,6 @@
     pkgs.rustup
     pkgs.stylua
     pkgs.tmux
-    pkgs.tokscale
     pkgs.treefmt
     pkgs.tree-sitter
     pkgs.yazi
