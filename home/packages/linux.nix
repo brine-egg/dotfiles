@@ -7,6 +7,7 @@
   home.packages = [
     pkgs.archivemount
     pkgs.dipc
+    pkgs.streamrip
     pkgs.trashy
     pkgs.w3m
   ];
