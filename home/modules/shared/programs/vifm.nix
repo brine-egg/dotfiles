@@ -1,5 +1,0 @@
-{
-  programs.vifm = {
-    enable = true;
-  };
-}

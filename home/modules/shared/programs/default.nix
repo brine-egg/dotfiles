@@ -13,7 +13,6 @@
     ./pi.nix
 	./superfile.nix
     ./tmux.nix
-	./vifm.nix
     ./yazi.nix
     ./zoxide.nix
     ./zsh.nix
