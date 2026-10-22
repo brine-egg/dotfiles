@@ -103,12 +103,6 @@
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
     };
-
-    # Paneru — macOS tiling window manager
-    paneru = {
-      url = "github:karinushka/paneru";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -122,7 +116,6 @@
       mac-app-util,
       hermes-home,
       agent-skills,
-      paneru,
       ...
     }@inputs:
     let
@@ -177,7 +170,6 @@
           inherit system;
           modules = [
             mac-app-util.darwinModules.default
-            paneru.darwinModules.paneru
             ./darwin/modules
             ./darwin/packages/common.nix
             ./hosts/${hostname}/darwin.nix
