@@ -47,8 +47,17 @@
       ls = "lsd";
     };
 
-    # Must run before any plugin sourcing (p10k instant prompt + stty)
-    initExtraFirst = ''
+    # Source externally written env variables in .zshenv
+    envExtra = ''
+      source "$HOME/.env"
+    '';
+
+    # initContent combines (a) a mkBefore block that must run before any
+    # plugin sourcing (p10k instant prompt + stty), and (b) a plain block
+    # that runs after plugin sourcing (and after fzf --zsh integration).
+    # Same ordering semantics as the old initExtraFirst / initExtra pair.
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
       # Enable Powerlevel10k instant prompt.
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
@@ -58,15 +67,8 @@
       if [[ -t 0 ]]; then
         stty -ixon
       fi
-    '';
-
-    # Source externally written env variables in .zshenv
-    envExtra = ''
-      source "$HOME/.env"
-    '';
-
-    # Runs after plugin sourcing (and after fzf --zsh integration)
-    initExtra = ''
+    '')
+      ''
       # Powerlevel10k theme + p10k config
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -94,7 +96,7 @@
       # Catppuccin theme for Fast Syntax Highlighting
       fast-theme XDG:catppuccin-mocha -q
 
-      ${lib.optionalString pkgs.stdenv.isLinux ''
+      ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
         # Sourced by the Nix installer on non-NixOS Linux
         if [ -e /home/brine/.nix-profile/etc/profile.d/nix.sh ]; then
           . /home/brine/.nix-profile/etc/profile.d/nix.sh
@@ -106,7 +108,8 @@
       # HM sources plugins before fzf --zsh, so sourcing fzf-tab as a
       # plugin would get its ^I binding immediately overwritten.
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-    '';
+    ''
+    ];
 
     # Fish-like autosuggestions (sourced by Home Manager)
     autosuggestion.enable = true;
